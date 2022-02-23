@@ -1,0 +1,1402 @@
+E:\anaconda\python.exe "D:/Mingjie Huang/ZhuoFan/src/task_sentence_similarity_lcqmc_MSRP.py"
+2022-01-31 00:13:04.109897: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cudart64_101.dll'; dlerror: cudart64_101.dll not found
+2022-01-31 00:13:04.109991: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+Using TensorFlow backend.
+2022-01-31 00:13:05.682128: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library nvcuda.dll
+2022-01-31 00:13:05.774115: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1555] Found device 0 with properties: 
+pciBusID: 0000:01:00.0 name: GeForce RTX 3090 computeCapability: 8.6
+coreClock: 1.86GHz coreCount: 82 deviceMemorySize: 24.00GiB deviceMemoryBandwidth: 871.81GiB/s
+2022-01-31 00:13:05.774248: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1555] Found device 1 with properties: 
+pciBusID: 0000:02:00.0 name: GeForce RTX 3090 computeCapability: 8.6
+coreClock: 1.86GHz coreCount: 82 deviceMemorySize: 24.00GiB deviceMemoryBandwidth: 871.81GiB/s
+2022-01-31 00:13:05.774682: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cudart64_101.dll'; dlerror: cudart64_101.dll not found
+2022-01-31 00:13:05.775004: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cublas64_10.dll'; dlerror: cublas64_10.dll not found
+2022-01-31 00:13:05.775319: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cufft64_10.dll'; dlerror: cufft64_10.dll not found
+2022-01-31 00:13:05.775620: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'curand64_10.dll'; dlerror: curand64_10.dll not found
+2022-01-31 00:13:05.775955: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cusolver64_10.dll'; dlerror: cusolver64_10.dll not found
+2022-01-31 00:13:05.776360: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cusparse64_10.dll'; dlerror: cusparse64_10.dll not found
+2022-01-31 00:13:05.776800: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cudnn64_7.dll'; dlerror: cudnn64_7.dll not found
+2022-01-31 00:13:05.776872: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1592] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2022-01-31 00:13:05.777174: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2022-01-31 00:13:05.777791: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1096] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-01-31 00:13:05.777881: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1102]      
+Model: "model_2"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+Input-Token (InputLayer)        (None, None)         0                                            
+__________________________________________________________________________________________________
+Input-Segment (InputLayer)      (None, None)         0                                            
+__________________________________________________________________________________________________
+Embedding-Token (Embedding)     (None, None, 768)    23440896    Input-Token[0][0]                
+__________________________________________________________________________________________________
+Embedding-Segment (Embedding)   (None, None, 768)    1536        Input-Segment[0][0]              
+__________________________________________________________________________________________________
+Embedding-Token-Segment (Add)   (None, None, 768)    0           Embedding-Token[0][0]            
+                                                                 Embedding-Segment[0][0]          
+__________________________________________________________________________________________________
+Embedding-Position (PositionEmb (None, None, 768)    393216      Embedding-Token-Segment[0][0]    
+__________________________________________________________________________________________________
+Embedding-Norm (LayerNormalizat (None, None, 768)    1536        Embedding-Position[0][0]         
+__________________________________________________________________________________________________
+Embedding-Dropout (Dropout)     (None, None, 768)    0           Embedding-Norm[0][0]             
+__________________________________________________________________________________________________
+Transformer-0-MultiHeadSelfAtte (None, None, 768)    2362368     Embedding-Dropout[0][0]          
+                                                                 Embedding-Dropout[0][0]          
+                                                                 Embedding-Dropout[0][0]          
+__________________________________________________________________________________________________
+Transformer-0-MultiHeadSelfAtte (None, None, 768)    0           Transformer-0-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-0-MultiHeadSelfAtte (None, None, 768)    0           Embedding-Dropout[0][0]          
+                                                                 Transformer-0-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-0-MultiHeadSelfAtte (None, None, 768)    1536        Transformer-0-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-0-FeedForward (Feed (None, None, 768)    4722432     Transformer-0-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-0-FeedForward-Dropo (None, None, 768)    0           Transformer-0-FeedForward[0][0]  
+__________________________________________________________________________________________________
+Transformer-0-FeedForward-Add ( (None, None, 768)    0           Transformer-0-MultiHeadSelfAttent
+                                                                 Transformer-0-FeedForward-Dropout
+__________________________________________________________________________________________________
+Transformer-0-FeedForward-Norm  (None, None, 768)    1536        Transformer-0-FeedForward-Add[0][
+__________________________________________________________________________________________________
+Transformer-1-MultiHeadSelfAtte (None, None, 768)    2362368     Transformer-0-FeedForward-Norm[0]
+                                                                 Transformer-0-FeedForward-Norm[0]
+                                                                 Transformer-0-FeedForward-Norm[0]
+__________________________________________________________________________________________________
+Transformer-1-MultiHeadSelfAtte (None, None, 768)    0           Transformer-1-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-1-MultiHeadSelfAtte (None, None, 768)    0           Transformer-0-FeedForward-Norm[0]
+                                                                 Transformer-1-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-1-MultiHeadSelfAtte (None, None, 768)    1536        Transformer-1-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-1-FeedForward (Feed (None, None, 768)    4722432     Transformer-1-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-1-FeedForward-Dropo (None, None, 768)    0           Transformer-1-FeedForward[0][0]  
+__________________________________________________________________________________________________
+Transformer-1-FeedForward-Add ( (None, None, 768)    0           Transformer-1-MultiHeadSelfAttent
+                                                                 Transformer-1-FeedForward-Dropout
+__________________________________________________________________________________________________
+Transformer-1-FeedForward-Norm  (None, None, 768)    1536        Transformer-1-FeedForward-Add[0][
+__________________________________________________________________________________________________
+Transformer-2-MultiHeadSelfAtte (None, None, 768)    2362368     Transformer-1-FeedForward-Norm[0]
+                                                                 Transformer-1-FeedForward-Norm[0]
+                                                                 Transformer-1-FeedForward-Norm[0]
+__________________________________________________________________________________________________
+Transformer-2-MultiHeadSelfAtte (None, None, 768)    0           Transformer-2-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-2-MultiHeadSelfAtte (None, None, 768)    0           Transformer-1-FeedForward-Norm[0]
+                                                                 Transformer-2-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-2-MultiHeadSelfAtte (None, None, 768)    1536        Transformer-2-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-2-FeedForward (Feed (None, None, 768)    4722432     Transformer-2-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-2-FeedForward-Dropo (None, None, 768)    0           Transformer-2-FeedForward[0][0]  
+__________________________________________________________________________________________________
+Transformer-2-FeedForward-Add ( (None, None, 768)    0           Transformer-2-MultiHeadSelfAttent
+                                                                 Transformer-2-FeedForward-Dropout
+__________________________________________________________________________________________________
+Transformer-2-FeedForward-Norm  (None, None, 768)    1536        Transformer-2-FeedForward-Add[0][
+__________________________________________________________________________________________________
+Transformer-3-MultiHeadSelfAtte (None, None, 768)    2362368     Transformer-2-FeedForward-Norm[0]
+                                                                 Transformer-2-FeedForward-Norm[0]
+                                                                 Transformer-2-FeedForward-Norm[0]
+__________________________________________________________________________________________________
+Transformer-3-MultiHeadSelfAtte (None, None, 768)    0           Transformer-3-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-3-MultiHeadSelfAtte (None, None, 768)    0           Transformer-2-FeedForward-Norm[0]
+                                                                 Transformer-3-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-3-MultiHeadSelfAtte (None, None, 768)    1536        Transformer-3-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-3-FeedForward (Feed (None, None, 768)    4722432     Transformer-3-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-3-FeedForward-Dropo (None, None, 768)    0           Transformer-3-FeedForward[0][0]  
+__________________________________________________________________________________________________
+Transformer-3-FeedForward-Add ( (None, None, 768)    0           Transformer-3-MultiHeadSelfAttent
+                                                                 Transformer-3-FeedForward-Dropout
+__________________________________________________________________________________________________
+Transformer-3-FeedForward-Norm  (None, None, 768)    1536        Transformer-3-FeedForward-Add[0][
+__________________________________________________________________________________________________
+Transformer-4-MultiHeadSelfAtte (None, None, 768)    2362368     Transformer-3-FeedForward-Norm[0]
+                                                                 Transformer-3-FeedForward-Norm[0]
+                                                                 Transformer-3-FeedForward-Norm[0]
+__________________________________________________________________________________________________
+Transformer-4-MultiHeadSelfAtte (None, None, 768)    0           Transformer-4-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-4-MultiHeadSelfAtte (None, None, 768)    0           Transformer-3-FeedForward-Norm[0]
+                                                                 Transformer-4-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-4-MultiHeadSelfAtte (None, None, 768)    1536        Transformer-4-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-4-FeedForward (Feed (None, None, 768)    4722432     Transformer-4-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-4-FeedForward-Dropo (None, None, 768)    0           Transformer-4-FeedForward[0][0]  
+__________________________________________________________________________________________________
+Transformer-4-FeedForward-Add ( (None, None, 768)    0           Transformer-4-MultiHeadSelfAttent
+                                                                 Transformer-4-FeedForward-Dropout
+__________________________________________________________________________________________________
+Transformer-4-FeedForward-Norm  (None, None, 768)    1536        Transformer-4-FeedForward-Add[0][
+__________________________________________________________________________________________________
+Transformer-5-MultiHeadSelfAtte (None, None, 768)    2362368     Transformer-4-FeedForward-Norm[0]
+                                                                 Transformer-4-FeedForward-Norm[0]
+                                                                 Transformer-4-FeedForward-Norm[0]
+__________________________________________________________________________________________________
+Transformer-5-MultiHeadSelfAtte (None, None, 768)    0           Transformer-5-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-5-MultiHeadSelfAtte (None, None, 768)    0           Transformer-4-FeedForward-Norm[0]
+                                                                 Transformer-5-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-5-MultiHeadSelfAtte (None, None, 768)    1536        Transformer-5-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-5-FeedForward (Feed (None, None, 768)    4722432     Transformer-5-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-5-FeedForward-Dropo (None, None, 768)    0           Transformer-5-FeedForward[0][0]  
+__________________________________________________________________________________________________
+Transformer-5-FeedForward-Add ( (None, None, 768)    0           Transformer-5-MultiHeadSelfAttent
+                                                                 Transformer-5-FeedForward-Dropout
+__________________________________________________________________________________________________
+Transformer-5-FeedForward-Norm  (None, None, 768)    1536        Transformer-5-FeedForward-Add[0][
+__________________________________________________________________________________________________
+Transformer-6-MultiHeadSelfAtte (None, None, 768)    2362368     Transformer-5-FeedForward-Norm[0]
+                                                                 Transformer-5-FeedForward-Norm[0]
+                                                                 Transformer-5-FeedForward-Norm[0]
+__________________________________________________________________________________________________
+Transformer-6-MultiHeadSelfAtte (None, None, 768)    0           Transformer-6-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-6-MultiHeadSelfAtte (None, None, 768)    0           Transformer-5-FeedForward-Norm[0]
+                                                                 Transformer-6-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-6-MultiHeadSelfAtte (None, None, 768)    1536        Transformer-6-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-6-FeedForward (Feed (None, None, 768)    4722432     Transformer-6-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-6-FeedForward-Dropo (None, None, 768)    0           Transformer-6-FeedForward[0][0]  
+__________________________________________________________________________________________________
+Transformer-6-FeedForward-Add ( (None, None, 768)    0           Transformer-6-MultiHeadSelfAttent
+                                                                 Transformer-6-FeedForward-Dropout
+__________________________________________________________________________________________________
+Transformer-6-FeedForward-Norm  (None, None, 768)    1536        Transformer-6-FeedForward-Add[0][
+__________________________________________________________________________________________________
+Transformer-7-MultiHeadSelfAtte (None, None, 768)    2362368     Transformer-6-FeedForward-Norm[0]
+                                                                 Transformer-6-FeedForward-Norm[0]
+                                                                 Transformer-6-FeedForward-Norm[0]
+__________________________________________________________________________________________________
+Transformer-7-MultiHeadSelfAtte (None, None, 768)    0           Transformer-7-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-7-MultiHeadSelfAtte (None, None, 768)    0           Transformer-6-FeedForward-Norm[0]
+                                                                 Transformer-7-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-7-MultiHeadSelfAtte (None, None, 768)    1536        Transformer-7-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-7-FeedForward (Feed (None, None, 768)    4722432     Transformer-7-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-7-FeedForward-Dropo (None, None, 768)    0           Transformer-7-FeedForward[0][0]  
+__________________________________________________________________________________________________
+Transformer-7-FeedForward-Add ( (None, None, 768)    0           Transformer-7-MultiHeadSelfAttent
+                                                                 Transformer-7-FeedForward-Dropout
+__________________________________________________________________________________________________
+Transformer-7-FeedForward-Norm  (None, None, 768)    1536        Transformer-7-FeedForward-Add[0][
+__________________________________________________________________________________________________
+Transformer-8-MultiHeadSelfAtte (None, None, 768)    2362368     Transformer-7-FeedForward-Norm[0]
+                                                                 Transformer-7-FeedForward-Norm[0]
+                                                                 Transformer-7-FeedForward-Norm[0]
+__________________________________________________________________________________________________
+Transformer-8-MultiHeadSelfAtte (None, None, 768)    0           Transformer-8-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-8-MultiHeadSelfAtte (None, None, 768)    0           Transformer-7-FeedForward-Norm[0]
+                                                                 Transformer-8-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-8-MultiHeadSelfAtte (None, None, 768)    1536        Transformer-8-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-8-FeedForward (Feed (None, None, 768)    4722432     Transformer-8-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-8-FeedForward-Dropo (None, None, 768)    0           Transformer-8-FeedForward[0][0]  
+__________________________________________________________________________________________________
+Transformer-8-FeedForward-Add ( (None, None, 768)    0           Transformer-8-MultiHeadSelfAttent
+                                                                 Transformer-8-FeedForward-Dropout
+__________________________________________________________________________________________________
+Transformer-8-FeedForward-Norm  (None, None, 768)    1536        Transformer-8-FeedForward-Add[0][
+__________________________________________________________________________________________________
+Transformer-9-MultiHeadSelfAtte (None, None, 768)    2362368     Transformer-8-FeedForward-Norm[0]
+                                                                 Transformer-8-FeedForward-Norm[0]
+                                                                 Transformer-8-FeedForward-Norm[0]
+__________________________________________________________________________________________________
+Transformer-9-MultiHeadSelfAtte (None, None, 768)    0           Transformer-9-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-9-MultiHeadSelfAtte (None, None, 768)    0           Transformer-8-FeedForward-Norm[0]
+                                                                 Transformer-9-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-9-MultiHeadSelfAtte (None, None, 768)    1536        Transformer-9-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-9-FeedForward (Feed (None, None, 768)    4722432     Transformer-9-MultiHeadSelfAttent
+__________________________________________________________________________________________________
+Transformer-9-FeedForward-Dropo (None, None, 768)    0           Transformer-9-FeedForward[0][0]  
+__________________________________________________________________________________________________
+Transformer-9-FeedForward-Add ( (None, None, 768)    0           Transformer-9-MultiHeadSelfAttent
+                                                                 Transformer-9-FeedForward-Dropout
+__________________________________________________________________________________________________
+Transformer-9-FeedForward-Norm  (None, None, 768)    1536        Transformer-9-FeedForward-Add[0][
+__________________________________________________________________________________________________
+Transformer-10-MultiHeadSelfAtt (None, None, 768)    2362368     Transformer-9-FeedForward-Norm[0]
+                                                                 Transformer-9-FeedForward-Norm[0]
+                                                                 Transformer-9-FeedForward-Norm[0]
+__________________________________________________________________________________________________
+Transformer-10-MultiHeadSelfAtt (None, None, 768)    0           Transformer-10-MultiHeadSelfAtten
+__________________________________________________________________________________________________
+Transformer-10-MultiHeadSelfAtt (None, None, 768)    0           Transformer-9-FeedForward-Norm[0]
+                                                                 Transformer-10-MultiHeadSelfAtten
+__________________________________________________________________________________________________
+Transformer-10-MultiHeadSelfAtt (None, None, 768)    1536        Transformer-10-MultiHeadSelfAtten
+__________________________________________________________________________________________________
+Transformer-10-FeedForward (Fee (None, None, 768)    4722432     Transformer-10-MultiHeadSelfAtten
+__________________________________________________________________________________________________
+Transformer-10-FeedForward-Drop (None, None, 768)    0           Transformer-10-FeedForward[0][0] 
+__________________________________________________________________________________________________
+Transformer-10-FeedForward-Add  (None, None, 768)    0           Transformer-10-MultiHeadSelfAtten
+                                                                 Transformer-10-FeedForward-Dropou
+__________________________________________________________________________________________________
+Transformer-10-FeedForward-Norm (None, None, 768)    1536        Transformer-10-FeedForward-Add[0]
+__________________________________________________________________________________________________
+Transformer-11-MultiHeadSelfAtt (None, None, 768)    2362368     Transformer-10-FeedForward-Norm[0
+                                                                 Transformer-10-FeedForward-Norm[0
+                                                                 Transformer-10-FeedForward-Norm[0
+__________________________________________________________________________________________________
+Transformer-11-MultiHeadSelfAtt (None, None, 768)    0           Transformer-11-MultiHeadSelfAtten
+__________________________________________________________________________________________________
+Transformer-11-MultiHeadSelfAtt (None, None, 768)    0           Transformer-10-FeedForward-Norm[0
+                                                                 Transformer-11-MultiHeadSelfAtten
+__________________________________________________________________________________________________
+Transformer-11-MultiHeadSelfAtt (None, None, 768)    1536        Transformer-11-MultiHeadSelfAtten
+__________________________________________________________________________________________________
+Transformer-11-FeedForward (Fee (None, None, 768)    4722432     Transformer-11-MultiHeadSelfAtten
+__________________________________________________________________________________________________
+Transformer-11-FeedForward-Drop (None, None, 768)    0           Transformer-11-FeedForward[0][0] 
+__________________________________________________________________________________________________
+Transformer-11-FeedForward-Add  (None, None, 768)    0           Transformer-11-MultiHeadSelfAtten
+                                                                 Transformer-11-FeedForward-Dropou
+__________________________________________________________________________________________________
+Transformer-11-FeedForward-Norm (None, None, 768)    1536        Transformer-11-FeedForward-Add[0]
+__________________________________________________________________________________________________
+Pooler (Lambda)                 (None, 768)          0           Transformer-11-FeedForward-Norm[0
+__________________________________________________________________________________________________
+Pooler-Dense (Dense)            (None, 768)          590592      Pooler[0][0]                     
+__________________________________________________________________________________________________
+dropout_13 (Dropout)            (None, 768)          0           Pooler-Dense[0][0]               
+__________________________________________________________________________________________________
+dense_73 (Dense)                (None, 2)            1538        dropout_13[0][0]                 
+==================================================================================================
+Total params: 109,483,778
+Trainable params: 109,483,778
+Non-trainable params: 0
+__________________________________________________________________________________________________
+E:\anaconda\lib\site-packages\tensorflow_core\python\framework\indexed_slices.py:433: UserWarning: Converting sparse IndexedSlices to a dense Tensor of unknown shape. This may consume a large amount of memory.
+  "Converting sparse IndexedSlices to a dense Tensor of unknown shape. "
+Epoch 1/20
+
+ 1/51 [..............................] - ETA: 9:25 - loss: 0.6093 - accuracy: 0.7500
+ 2/51 [>.............................] - ETA: 7:43 - loss: 0.6274 - accuracy: 0.7031
+ 3/51 [>.............................] - ETA: 7:33 - loss: 0.6245 - accuracy: 0.7031
+ 4/51 [=>............................] - ETA: 7:07 - loss: 0.6283 - accuracy: 0.6875
+ 5/51 [=>............................] - ETA: 6:44 - loss: 0.6358 - accuracy: 0.6844
+ 6/51 [==>...........................] - ETA: 6:30 - loss: 0.6225 - accuracy: 0.6927
+ 7/51 [===>..........................] - ETA: 6:20 - loss: 0.6219 - accuracy: 0.6942
+ 8/51 [===>..........................] - ETA: 6:07 - loss: 0.6222 - accuracy: 0.6875
+ 9/51 [====>.........................] - ETA: 5:55 - loss: 0.6219 - accuracy: 0.6858
+10/51 [====>.........................] - ETA: 5:42 - loss: 0.6251 - accuracy: 0.6781
+11/51 [=====>........................] - ETA: 5:37 - loss: 0.6209 - accuracy: 0.6818
+12/51 [======>.......................] - ETA: 5:28 - loss: 0.6171 - accuracy: 0.6836
+13/51 [======>.......................] - ETA: 5:19 - loss: 0.6149 - accuracy: 0.6875
+14/51 [=======>......................] - ETA: 5:12 - loss: 0.6131 - accuracy: 0.6864
+15/51 [=======>......................] - ETA: 5:02 - loss: 0.6151 - accuracy: 0.6833
+16/51 [========>.....................] - ETA: 4:52 - loss: 0.6169 - accuracy: 0.6816
+17/51 [=========>....................] - ETA: 4:42 - loss: 0.6149 - accuracy: 0.6820
+18/51 [=========>....................] - ETA: 4:32 - loss: 0.6104 - accuracy: 0.6866
+19/51 [==========>...................] - ETA: 4:23 - loss: 0.6087 - accuracy: 0.6875
+20/51 [==========>...................] - ETA: 4:14 - loss: 0.6103 - accuracy: 0.6867
+21/51 [===========>..................] - ETA: 4:05 - loss: 0.6069 - accuracy: 0.6875
+22/51 [===========>..................] - ETA: 3:58 - loss: 0.6055 - accuracy: 0.6875
+23/51 [============>.................] - ETA: 3:50 - loss: 0.6034 - accuracy: 0.6902
+24/51 [=============>................] - ETA: 3:42 - loss: 0.5997 - accuracy: 0.6934
+25/51 [=============>................] - ETA: 3:33 - loss: 0.5979 - accuracy: 0.6925
+26/51 [==============>...............] - ETA: 3:25 - loss: 0.5965 - accuracy: 0.6941
+27/51 [==============>...............] - ETA: 3:16 - loss: 0.5956 - accuracy: 0.6944
+28/51 [===============>..............] - ETA: 3:07 - loss: 0.5892 - accuracy: 0.6992
+29/51 [================>.............] - ETA: 3:00 - loss: 0.5868 - accuracy: 0.7015
+30/51 [================>.............] - ETA: 2:52 - loss: 0.5848 - accuracy: 0.7036
+31/51 [=================>............] - ETA: 2:44 - loss: 0.5866 - accuracy: 0.7021
+32/51 [=================>............] - ETA: 2:35 - loss: 0.5856 - accuracy: 0.7026
+33/51 [==================>...........] - ETA: 2:28 - loss: 0.5843 - accuracy: 0.7031
+34/51 [===================>..........] - ETA: 2:19 - loss: 0.5849 - accuracy: 0.7022
+35/51 [===================>..........] - ETA: 2:11 - loss: 0.5820 - accuracy: 0.7045
+36/51 [====================>.........] - ETA: 2:03 - loss: 0.5795 - accuracy: 0.7083
+37/51 [====================>.........] - ETA: 1:54 - loss: 0.5771 - accuracy: 0.7095
+38/51 [=====================>........] - ETA: 1:46 - loss: 0.5771 - accuracy: 0.7109
+39/51 [=====================>........] - ETA: 1:38 - loss: 0.5755 - accuracy: 0.7107
+40/51 [======================>.......] - ETA: 1:30 - loss: 0.5735 - accuracy: 0.7121
+41/51 [=======================>......] - ETA: 1:21 - loss: 0.5727 - accuracy: 0.7119
+42/51 [=======================>......] - ETA: 1:13 - loss: 0.5709 - accuracy: 0.7139
+43/51 [========================>.....] - ETA: 1:05 - loss: 0.5689 - accuracy: 0.7166
+44/51 [========================>.....] - ETA: 57s - loss: 0.5687 - accuracy: 0.7163 
+45/51 [=========================>....] - ETA: 48s - loss: 0.5675 - accuracy: 0.7177
+46/51 [==========================>...] - ETA: 40s - loss: 0.5665 - accuracy: 0.7174
+47/51 [==========================>...] - ETA: 32s - loss: 0.5641 - accuracy: 0.7194
+48/51 [===========================>..] - ETA: 24s - loss: 0.5636 - accuracy: 0.7191
+49/51 [===========================>..] - ETA: 16s - loss: 0.5638 - accuracy: 0.7178
+50/51 [============================>.] - ETA: 8s - loss: 0.5641 - accuracy: 0.7169 
+51/51 [==============================] - 412s 8s/step - loss: 0.5630 - accuracy: 0.7178
+val_acc: 0.74387, best_val_acc: 0.74387, test_acc: 0.76522
+
+Epoch 2/20
+
+ 1/51 [..............................] - ETA: 6:02 - loss: 0.4136 - accuracy: 0.8594
+ 2/51 [>.............................] - ETA: 6:25 - loss: 0.4351 - accuracy: 0.8047
+ 3/51 [>.............................] - ETA: 6:24 - loss: 0.4412 - accuracy: 0.8073
+ 4/51 [=>............................] - ETA: 6:12 - loss: 0.4217 - accuracy: 0.8203
+ 5/51 [=>............................] - ETA: 6:11 - loss: 0.4163 - accuracy: 0.8313
+ 6/51 [==>...........................] - ETA: 6:08 - loss: 0.4292 - accuracy: 0.8125
+ 7/51 [===>..........................] - ETA: 5:52 - loss: 0.4268 - accuracy: 0.8125
+ 8/51 [===>..........................] - ETA: 5:43 - loss: 0.4127 - accuracy: 0.8242
+ 9/51 [====>.........................] - ETA: 5:35 - loss: 0.4177 - accuracy: 0.8212
+10/51 [====>.........................] - ETA: 5:33 - loss: 0.4154 - accuracy: 0.8234
+11/51 [=====>........................] - ETA: 5:24 - loss: 0.4152 - accuracy: 0.8267
+12/51 [======>.......................] - ETA: 5:17 - loss: 0.4177 - accuracy: 0.8242
+13/51 [======>.......................] - ETA: 5:08 - loss: 0.4162 - accuracy: 0.8233
+14/51 [=======>......................] - ETA: 4:59 - loss: 0.4117 - accuracy: 0.8270
+15/51 [=======>......................] - ETA: 4:51 - loss: 0.4132 - accuracy: 0.8229
+16/51 [========>.....................] - ETA: 4:42 - loss: 0.4154 - accuracy: 0.8184
+17/51 [=========>....................] - ETA: 4:32 - loss: 0.4136 - accuracy: 0.8180
+18/51 [=========>....................] - ETA: 4:23 - loss: 0.4096 - accuracy: 0.8212
+19/51 [==========>...................] - ETA: 4:16 - loss: 0.4104 - accuracy: 0.8215
+20/51 [==========>...................] - ETA: 4:07 - loss: 0.4106 - accuracy: 0.8203
+21/51 [===========>..................] - ETA: 3:59 - loss: 0.4065 - accuracy: 0.8237
+22/51 [===========>..................] - ETA: 3:52 - loss: 0.4114 - accuracy: 0.8196
+23/51 [============>.................] - ETA: 3:44 - loss: 0.4043 - accuracy: 0.8247
+24/51 [=============>................] - ETA: 3:35 - loss: 0.4066 - accuracy: 0.8249
+25/51 [=============>................] - ETA: 3:28 - loss: 0.4028 - accuracy: 0.8269
+26/51 [==============>...............] - ETA: 3:19 - loss: 0.4002 - accuracy: 0.8269
+27/51 [==============>...............] - ETA: 3:12 - loss: 0.3990 - accuracy: 0.8287
+28/51 [===============>..............] - ETA: 3:04 - loss: 0.4007 - accuracy: 0.8270
+29/51 [================>.............] - ETA: 2:56 - loss: 0.4001 - accuracy: 0.8260
+30/51 [================>.............] - ETA: 2:48 - loss: 0.4017 - accuracy: 0.8245
+31/51 [=================>............] - ETA: 2:40 - loss: 0.4025 - accuracy: 0.8236
+32/51 [=================>............] - ETA: 2:32 - loss: 0.4021 - accuracy: 0.8237
+33/51 [==================>...........] - ETA: 2:23 - loss: 0.4001 - accuracy: 0.8258
+34/51 [===================>..........] - ETA: 2:16 - loss: 0.3990 - accuracy: 0.8254
+35/51 [===================>..........] - ETA: 2:08 - loss: 0.3985 - accuracy: 0.8263
+36/51 [====================>.........] - ETA: 2:00 - loss: 0.3925 - accuracy: 0.8290
+37/51 [====================>.........] - ETA: 1:51 - loss: 0.3904 - accuracy: 0.8298
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.3942 - accuracy: 0.8277
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.3925 - accuracy: 0.8285
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.3907 - accuracy: 0.8289
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.3902 - accuracy: 0.8289
+42/51 [=======================>......] - ETA: 1:11 - loss: 0.3901 - accuracy: 0.8289
+43/51 [========================>.....] - ETA: 1:03 - loss: 0.3899 - accuracy: 0.8281
+44/51 [========================>.....] - ETA: 55s - loss: 0.3884 - accuracy: 0.8288 
+45/51 [=========================>....] - ETA: 47s - loss: 0.3864 - accuracy: 0.8292
+46/51 [==========================>...] - ETA: 39s - loss: 0.3856 - accuracy: 0.8295
+47/51 [==========================>...] - ETA: 31s - loss: 0.3836 - accuracy: 0.8305
+48/51 [===========================>..] - ETA: 23s - loss: 0.3810 - accuracy: 0.8317
+49/51 [===========================>..] - ETA: 15s - loss: 0.3804 - accuracy: 0.8316
+50/51 [============================>.] - ETA: 8s - loss: 0.3769 - accuracy: 0.8338 
+51/51 [==============================] - 407s 8s/step - loss: 0.3762 - accuracy: 0.8347
+val_acc: 0.80882, best_val_acc: 0.80882, test_acc: 0.80870
+
+Epoch 3/20
+
+ 1/51 [..............................] - ETA: 6:36 - loss: 0.1477 - accuracy: 0.9531
+ 2/51 [>.............................] - ETA: 6:27 - loss: 0.1514 - accuracy: 0.9531
+ 3/51 [>.............................] - ETA: 6:27 - loss: 0.1551 - accuracy: 0.9583
+ 4/51 [=>............................] - ETA: 6:15 - loss: 0.1562 - accuracy: 0.9570
+ 5/51 [=>............................] - ETA: 6:03 - loss: 0.1792 - accuracy: 0.9438
+ 6/51 [==>...........................] - ETA: 5:53 - loss: 0.1670 - accuracy: 0.9531
+ 7/51 [===>..........................] - ETA: 5:42 - loss: 0.1643 - accuracy: 0.9509
+ 8/51 [===>..........................] - ETA: 5:32 - loss: 0.1679 - accuracy: 0.9512
+ 9/51 [====>.........................] - ETA: 5:26 - loss: 0.1871 - accuracy: 0.9392
+10/51 [====>.........................] - ETA: 5:17 - loss: 0.1827 - accuracy: 0.9438
+11/51 [=====>........................] - ETA: 5:09 - loss: 0.1818 - accuracy: 0.9403
+12/51 [======>.......................] - ETA: 5:00 - loss: 0.1915 - accuracy: 0.9349
+13/51 [======>.......................] - ETA: 4:53 - loss: 0.1977 - accuracy: 0.9303
+14/51 [=======>......................] - ETA: 4:47 - loss: 0.2024 - accuracy: 0.9297
+15/51 [=======>......................] - ETA: 4:37 - loss: 0.2008 - accuracy: 0.9302
+16/51 [========>.....................] - ETA: 4:32 - loss: 0.1959 - accuracy: 0.9336
+17/51 [=========>....................] - ETA: 4:24 - loss: 0.1969 - accuracy: 0.9320
+18/51 [=========>....................] - ETA: 4:17 - loss: 0.1936 - accuracy: 0.9332
+19/51 [==========>...................] - ETA: 4:10 - loss: 0.1908 - accuracy: 0.9342
+20/51 [==========>...................] - ETA: 4:04 - loss: 0.1885 - accuracy: 0.9352
+21/51 [===========>..................] - ETA: 3:56 - loss: 0.1850 - accuracy: 0.9368
+22/51 [===========>..................] - ETA: 3:48 - loss: 0.1831 - accuracy: 0.9375
+23/51 [============>.................] - ETA: 3:42 - loss: 0.1834 - accuracy: 0.9368
+24/51 [=============>................] - ETA: 3:34 - loss: 0.1867 - accuracy: 0.9342
+25/51 [=============>................] - ETA: 3:26 - loss: 0.1868 - accuracy: 0.9331
+26/51 [==============>...............] - ETA: 3:18 - loss: 0.1939 - accuracy: 0.9303
+27/51 [==============>...............] - ETA: 3:11 - loss: 0.1915 - accuracy: 0.9311
+28/51 [===============>..............] - ETA: 3:03 - loss: 0.1937 - accuracy: 0.9302
+29/51 [================>.............] - ETA: 2:55 - loss: 0.1973 - accuracy: 0.9267
+30/51 [================>.............] - ETA: 2:47 - loss: 0.1963 - accuracy: 0.9276
+31/51 [=================>............] - ETA: 2:39 - loss: 0.1971 - accuracy: 0.9254
+32/51 [=================>............] - ETA: 2:31 - loss: 0.1973 - accuracy: 0.9258
+33/51 [==================>...........] - ETA: 2:23 - loss: 0.1964 - accuracy: 0.9261
+34/51 [===================>..........] - ETA: 2:15 - loss: 0.1950 - accuracy: 0.9269
+35/51 [===================>..........] - ETA: 2:07 - loss: 0.1961 - accuracy: 0.9268
+36/51 [====================>.........] - ETA: 1:59 - loss: 0.1944 - accuracy: 0.9284
+37/51 [====================>.........] - ETA: 1:51 - loss: 0.1972 - accuracy: 0.9269
+38/51 [=====================>........] - ETA: 1:43 - loss: 0.1998 - accuracy: 0.9264
+39/51 [=====================>........] - ETA: 1:35 - loss: 0.2001 - accuracy: 0.9263
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.2021 - accuracy: 0.9258
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.2082 - accuracy: 0.9230
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.2108 - accuracy: 0.9215
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.2105 - accuracy: 0.9215
+44/51 [========================>.....] - ETA: 56s - loss: 0.2089 - accuracy: 0.9229 
+45/51 [=========================>....] - ETA: 48s - loss: 0.2091 - accuracy: 0.9226
+46/51 [==========================>...] - ETA: 40s - loss: 0.2100 - accuracy: 0.9215
+47/51 [==========================>...] - ETA: 32s - loss: 0.2102 - accuracy: 0.9219
+48/51 [===========================>..] - ETA: 24s - loss: 0.2103 - accuracy: 0.9222
+49/51 [===========================>..] - ETA: 16s - loss: 0.2102 - accuracy: 0.9219
+50/51 [============================>.] - ETA: 8s - loss: 0.2109 - accuracy: 0.9209 
+51/51 [==============================] - 408s 8s/step - loss: 0.2109 - accuracy: 0.9206
+val_acc: 0.80882, best_val_acc: 0.80882, test_acc: 0.81449
+
+Epoch 4/20
+
+ 1/51 [..............................] - ETA: 6:55 - loss: 0.0725 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:37 - loss: 0.1010 - accuracy: 0.9688
+ 3/51 [>.............................] - ETA: 6:18 - loss: 0.1318 - accuracy: 0.9583
+ 4/51 [=>............................] - ETA: 6:06 - loss: 0.1239 - accuracy: 0.9648
+ 5/51 [=>............................] - ETA: 5:59 - loss: 0.1274 - accuracy: 0.9625
+ 6/51 [==>...........................] - ETA: 5:55 - loss: 0.1328 - accuracy: 0.9531
+ 7/51 [===>..........................] - ETA: 5:49 - loss: 0.1226 - accuracy: 0.9598
+ 8/51 [===>..........................] - ETA: 5:41 - loss: 0.1269 - accuracy: 0.9590
+ 9/51 [====>.........................] - ETA: 5:32 - loss: 0.1178 - accuracy: 0.9635
+10/51 [====>.........................] - ETA: 5:24 - loss: 0.1252 - accuracy: 0.9641
+11/51 [=====>........................] - ETA: 5:14 - loss: 0.1229 - accuracy: 0.9631
+12/51 [======>.......................] - ETA: 5:09 - loss: 0.1297 - accuracy: 0.9583
+13/51 [======>.......................] - ETA: 5:01 - loss: 0.1242 - accuracy: 0.9603
+14/51 [=======>......................] - ETA: 4:54 - loss: 0.1238 - accuracy: 0.9609
+15/51 [=======>......................] - ETA: 4:45 - loss: 0.1278 - accuracy: 0.9583
+16/51 [========>.....................] - ETA: 4:37 - loss: 0.1248 - accuracy: 0.9600
+17/51 [=========>....................] - ETA: 4:29 - loss: 0.1323 - accuracy: 0.9577
+18/51 [=========>....................] - ETA: 4:21 - loss: 0.1370 - accuracy: 0.9575
+19/51 [==========>...................] - ETA: 4:16 - loss: 0.1346 - accuracy: 0.9581
+20/51 [==========>...................] - ETA: 4:07 - loss: 0.1313 - accuracy: 0.9594
+21/51 [===========>..................] - ETA: 3:58 - loss: 0.1338 - accuracy: 0.9576
+22/51 [===========>..................] - ETA: 3:52 - loss: 0.1329 - accuracy: 0.9574
+23/51 [============>.................] - ETA: 3:44 - loss: 0.1291 - accuracy: 0.9592
+24/51 [=============>................] - ETA: 3:35 - loss: 0.1301 - accuracy: 0.9583
+25/51 [=============>................] - ETA: 3:27 - loss: 0.1294 - accuracy: 0.9588
+26/51 [==============>...............] - ETA: 3:20 - loss: 0.1310 - accuracy: 0.9573
+27/51 [==============>...............] - ETA: 3:12 - loss: 0.1277 - accuracy: 0.9589
+28/51 [===============>..............] - ETA: 3:04 - loss: 0.1262 - accuracy: 0.9593
+29/51 [================>.............] - ETA: 2:56 - loss: 0.1256 - accuracy: 0.9580
+30/51 [================>.............] - ETA: 2:48 - loss: 0.1262 - accuracy: 0.9573
+31/51 [=================>............] - ETA: 2:39 - loss: 0.1246 - accuracy: 0.9577
+32/51 [=================>............] - ETA: 2:32 - loss: 0.1224 - accuracy: 0.9590
+33/51 [==================>...........] - ETA: 2:24 - loss: 0.1215 - accuracy: 0.9598
+34/51 [===================>..........] - ETA: 2:16 - loss: 0.1227 - accuracy: 0.9596
+35/51 [===================>..........] - ETA: 2:08 - loss: 0.1242 - accuracy: 0.9580
+36/51 [====================>.........] - ETA: 2:00 - loss: 0.1238 - accuracy: 0.9579
+37/51 [====================>.........] - ETA: 1:52 - loss: 0.1223 - accuracy: 0.9586
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.1216 - accuracy: 0.9581
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.1235 - accuracy: 0.9575
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.1227 - accuracy: 0.9574
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.1236 - accuracy: 0.9573
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.1232 - accuracy: 0.9580
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.1225 - accuracy: 0.9578
+44/51 [========================>.....] - ETA: 56s - loss: 0.1206 - accuracy: 0.9588 
+45/51 [=========================>....] - ETA: 48s - loss: 0.1231 - accuracy: 0.9569
+46/51 [==========================>...] - ETA: 39s - loss: 0.1248 - accuracy: 0.9565
+47/51 [==========================>...] - ETA: 31s - loss: 0.1247 - accuracy: 0.9568
+48/51 [===========================>..] - ETA: 23s - loss: 0.1242 - accuracy: 0.9570
+49/51 [===========================>..] - ETA: 16s - loss: 0.1255 - accuracy: 0.9566
+50/51 [============================>.] - ETA: 8s - loss: 0.1237 - accuracy: 0.9575 
+51/51 [==============================] - 408s 8s/step - loss: 0.1256 - accuracy: 0.9571
+val_acc: 0.79657, best_val_acc: 0.80882, test_acc: 0.79362
+
+Epoch 5/20
+
+ 1/51 [..............................] - ETA: 6:43 - loss: 0.0533 - accuracy: 0.9844
+ 2/51 [>.............................] - ETA: 6:16 - loss: 0.0821 - accuracy: 0.9609
+ 3/51 [>.............................] - ETA: 6:02 - loss: 0.0807 - accuracy: 0.9688
+ 4/51 [=>............................] - ETA: 6:06 - loss: 0.0733 - accuracy: 0.9766
+ 5/51 [=>............................] - ETA: 6:02 - loss: 0.0653 - accuracy: 0.9812
+ 6/51 [==>...........................] - ETA: 5:53 - loss: 0.0591 - accuracy: 0.9844
+ 7/51 [===>..........................] - ETA: 5:45 - loss: 0.0560 - accuracy: 0.9866
+ 8/51 [===>..........................] - ETA: 5:38 - loss: 0.0620 - accuracy: 0.9805
+ 9/51 [====>.........................] - ETA: 5:28 - loss: 0.0569 - accuracy: 0.9826
+10/51 [====>.........................] - ETA: 5:22 - loss: 0.0576 - accuracy: 0.9828
+11/51 [=====>........................] - ETA: 5:15 - loss: 0.0551 - accuracy: 0.9844
+12/51 [======>.......................] - ETA: 5:06 - loss: 0.0562 - accuracy: 0.9844
+13/51 [======>.......................] - ETA: 4:57 - loss: 0.0552 - accuracy: 0.9844
+14/51 [=======>......................] - ETA: 4:51 - loss: 0.0571 - accuracy: 0.9821
+15/51 [=======>......................] - ETA: 4:45 - loss: 0.0553 - accuracy: 0.9833
+16/51 [========>.....................] - ETA: 4:38 - loss: 0.0538 - accuracy: 0.9844
+17/51 [=========>....................] - ETA: 4:29 - loss: 0.0573 - accuracy: 0.9835
+18/51 [=========>....................] - ETA: 4:24 - loss: 0.0569 - accuracy: 0.9835
+19/51 [==========>...................] - ETA: 4:16 - loss: 0.0562 - accuracy: 0.9836
+20/51 [==========>...................] - ETA: 4:07 - loss: 0.0558 - accuracy: 0.9836
+21/51 [===========>..................] - ETA: 3:58 - loss: 0.0616 - accuracy: 0.9821
+22/51 [===========>..................] - ETA: 3:50 - loss: 0.0605 - accuracy: 0.9822
+23/51 [============>.................] - ETA: 3:42 - loss: 0.0658 - accuracy: 0.9796
+24/51 [=============>................] - ETA: 3:34 - loss: 0.0644 - accuracy: 0.9805
+25/51 [=============>................] - ETA: 3:25 - loss: 0.0645 - accuracy: 0.9806
+26/51 [==============>...............] - ETA: 3:17 - loss: 0.0665 - accuracy: 0.9808
+27/51 [==============>...............] - ETA: 3:09 - loss: 0.0666 - accuracy: 0.9809
+28/51 [===============>..............] - ETA: 3:02 - loss: 0.0675 - accuracy: 0.9810
+29/51 [================>.............] - ETA: 2:53 - loss: 0.0672 - accuracy: 0.9811
+30/51 [================>.............] - ETA: 2:46 - loss: 0.0658 - accuracy: 0.9818
+31/51 [=================>............] - ETA: 2:38 - loss: 0.0657 - accuracy: 0.9819
+32/51 [=================>............] - ETA: 2:30 - loss: 0.0659 - accuracy: 0.9819
+33/51 [==================>...........] - ETA: 2:22 - loss: 0.0647 - accuracy: 0.9825
+34/51 [===================>..........] - ETA: 2:14 - loss: 0.0632 - accuracy: 0.9830
+35/51 [===================>..........] - ETA: 2:06 - loss: 0.0637 - accuracy: 0.9826
+36/51 [====================>.........] - ETA: 1:58 - loss: 0.0625 - accuracy: 0.9831
+37/51 [====================>.........] - ETA: 1:51 - loss: 0.0621 - accuracy: 0.9831
+38/51 [=====================>........] - ETA: 1:43 - loss: 0.0610 - accuracy: 0.9836
+39/51 [=====================>........] - ETA: 1:35 - loss: 0.0604 - accuracy: 0.9836
+40/51 [======================>.......] - ETA: 1:27 - loss: 0.0596 - accuracy: 0.9836
+41/51 [=======================>......] - ETA: 1:19 - loss: 0.0596 - accuracy: 0.9832
+42/51 [=======================>......] - ETA: 1:11 - loss: 0.0590 - accuracy: 0.9833
+43/51 [========================>.....] - ETA: 1:03 - loss: 0.0584 - accuracy: 0.9836
+44/51 [========================>.....] - ETA: 55s - loss: 0.0603 - accuracy: 0.9830 
+45/51 [=========================>....] - ETA: 47s - loss: 0.0599 - accuracy: 0.9833
+46/51 [==========================>...] - ETA: 39s - loss: 0.0612 - accuracy: 0.9827
+47/51 [==========================>...] - ETA: 31s - loss: 0.0601 - accuracy: 0.9830
+48/51 [===========================>..] - ETA: 23s - loss: 0.0601 - accuracy: 0.9831
+49/51 [===========================>..] - ETA: 15s - loss: 0.0601 - accuracy: 0.9831
+50/51 [============================>.] - ETA: 8s - loss: 0.0592 - accuracy: 0.9834 
+51/51 [==============================] - 408s 8s/step - loss: 0.0603 - accuracy: 0.9831
+val_acc: 0.83456, best_val_acc: 0.83456, test_acc: 0.81449
+
+Epoch 6/20
+
+ 1/51 [..............................] - ETA: 6:55 - loss: 0.0435 - accuracy: 0.9844
+ 2/51 [>.............................] - ETA: 6:36 - loss: 0.1316 - accuracy: 0.9609
+ 3/51 [>.............................] - ETA: 6:25 - loss: 0.0911 - accuracy: 0.9740
+ 4/51 [=>............................] - ETA: 6:17 - loss: 0.0721 - accuracy: 0.9805
+ 5/51 [=>............................] - ETA: 6:06 - loss: 0.0638 - accuracy: 0.9844
+ 6/51 [==>...........................] - ETA: 6:02 - loss: 0.0558 - accuracy: 0.9870
+ 7/51 [===>..........................] - ETA: 5:49 - loss: 0.0490 - accuracy: 0.9888
+ 8/51 [===>..........................] - ETA: 5:49 - loss: 0.0442 - accuracy: 0.9902
+ 9/51 [====>.........................] - ETA: 5:40 - loss: 0.0460 - accuracy: 0.9878
+10/51 [====>.........................] - ETA: 5:38 - loss: 0.0448 - accuracy: 0.9891
+11/51 [=====>........................] - ETA: 5:27 - loss: 0.0434 - accuracy: 0.9901
+12/51 [======>.......................] - ETA: 5:16 - loss: 0.0452 - accuracy: 0.9896
+13/51 [======>.......................] - ETA: 5:10 - loss: 0.0423 - accuracy: 0.9904
+14/51 [=======>......................] - ETA: 5:01 - loss: 0.0410 - accuracy: 0.9911
+15/51 [=======>......................] - ETA: 4:51 - loss: 0.0398 - accuracy: 0.9917
+16/51 [========>.....................] - ETA: 4:41 - loss: 0.0432 - accuracy: 0.9912
+17/51 [=========>....................] - ETA: 4:33 - loss: 0.0424 - accuracy: 0.9908
+18/51 [=========>....................] - ETA: 4:24 - loss: 0.0419 - accuracy: 0.9905
+19/51 [==========>...................] - ETA: 4:17 - loss: 0.0406 - accuracy: 0.9910
+20/51 [==========>...................] - ETA: 4:10 - loss: 0.0392 - accuracy: 0.9914
+21/51 [===========>..................] - ETA: 4:02 - loss: 0.0407 - accuracy: 0.9911
+22/51 [===========>..................] - ETA: 3:54 - loss: 0.0392 - accuracy: 0.9915
+23/51 [============>.................] - ETA: 3:45 - loss: 0.0377 - accuracy: 0.9918
+24/51 [=============>................] - ETA: 3:36 - loss: 0.0383 - accuracy: 0.9909
+25/51 [=============>................] - ETA: 3:28 - loss: 0.0377 - accuracy: 0.9912
+26/51 [==============>...............] - ETA: 3:21 - loss: 0.0373 - accuracy: 0.9910
+27/51 [==============>...............] - ETA: 3:12 - loss: 0.0397 - accuracy: 0.9907
+28/51 [===============>..............] - ETA: 3:04 - loss: 0.0389 - accuracy: 0.9911
+29/51 [================>.............] - ETA: 2:55 - loss: 0.0399 - accuracy: 0.9903
+30/51 [================>.............] - ETA: 2:47 - loss: 0.0391 - accuracy: 0.9906
+31/51 [=================>............] - ETA: 2:39 - loss: 0.0435 - accuracy: 0.9894
+32/51 [=================>............] - ETA: 2:31 - loss: 0.0426 - accuracy: 0.9897
+33/51 [==================>...........] - ETA: 2:24 - loss: 0.0417 - accuracy: 0.9901
+34/51 [===================>..........] - ETA: 2:16 - loss: 0.0410 - accuracy: 0.9903
+35/51 [===================>..........] - ETA: 2:08 - loss: 0.0403 - accuracy: 0.9906
+36/51 [====================>.........] - ETA: 2:00 - loss: 0.0398 - accuracy: 0.9909
+37/51 [====================>.........] - ETA: 1:52 - loss: 0.0393 - accuracy: 0.9911
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0385 - accuracy: 0.9914
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.0378 - accuracy: 0.9916
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.0370 - accuracy: 0.9918
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0364 - accuracy: 0.9920
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0357 - accuracy: 0.9922
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0362 - accuracy: 0.9920
+44/51 [========================>.....] - ETA: 56s - loss: 0.0359 - accuracy: 0.9918 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0354 - accuracy: 0.9920
+46/51 [==========================>...] - ETA: 40s - loss: 0.0358 - accuracy: 0.9915
+47/51 [==========================>...] - ETA: 32s - loss: 0.0354 - accuracy: 0.9917
+48/51 [===========================>..] - ETA: 24s - loss: 0.0361 - accuracy: 0.9915
+49/51 [===========================>..] - ETA: 16s - loss: 0.0400 - accuracy: 0.9904
+50/51 [============================>.] - ETA: 8s - loss: 0.0402 - accuracy: 0.9903 
+51/51 [==============================] - 407s 8s/step - loss: 0.0407 - accuracy: 0.9902
+val_acc: 0.81863, best_val_acc: 0.83456, test_acc: 0.82087
+
+Epoch 7/20
+
+ 1/51 [..............................] - ETA: 6:07 - loss: 0.0208 - accuracy: 0.9844
+ 2/51 [>.............................] - ETA: 6:09 - loss: 0.0966 - accuracy: 0.9609
+ 3/51 [>.............................] - ETA: 6:10 - loss: 0.0670 - accuracy: 0.9740
+ 4/51 [=>............................] - ETA: 5:58 - loss: 0.0562 - accuracy: 0.9805
+ 5/51 [=>............................] - ETA: 5:56 - loss: 0.0528 - accuracy: 0.9781
+ 6/51 [==>...........................] - ETA: 6:00 - loss: 0.0448 - accuracy: 0.9818
+ 7/51 [===>..........................] - ETA: 5:51 - loss: 0.0393 - accuracy: 0.9844
+ 8/51 [===>..........................] - ETA: 5:42 - loss: 0.0399 - accuracy: 0.9844
+ 9/51 [====>.........................] - ETA: 5:37 - loss: 0.0409 - accuracy: 0.9844
+10/51 [====>.........................] - ETA: 5:28 - loss: 0.0380 - accuracy: 0.9859
+11/51 [=====>........................] - ETA: 5:18 - loss: 0.0354 - accuracy: 0.9872
+12/51 [======>.......................] - ETA: 5:10 - loss: 0.0334 - accuracy: 0.9883
+13/51 [======>.......................] - ETA: 5:01 - loss: 0.0393 - accuracy: 0.9880
+14/51 [=======>......................] - ETA: 4:57 - loss: 0.0388 - accuracy: 0.9877
+15/51 [=======>......................] - ETA: 4:52 - loss: 0.0369 - accuracy: 0.9885
+16/51 [========>.....................] - ETA: 4:47 - loss: 0.0378 - accuracy: 0.9883
+17/51 [=========>....................] - ETA: 4:37 - loss: 0.0409 - accuracy: 0.9871
+18/51 [=========>....................] - ETA: 4:30 - loss: 0.0392 - accuracy: 0.9878
+19/51 [==========>...................] - ETA: 4:22 - loss: 0.0399 - accuracy: 0.9877
+20/51 [==========>...................] - ETA: 4:15 - loss: 0.0383 - accuracy: 0.9883
+21/51 [===========>..................] - ETA: 4:05 - loss: 0.0382 - accuracy: 0.9881
+22/51 [===========>..................] - ETA: 3:57 - loss: 0.0381 - accuracy: 0.9879
+23/51 [============>.................] - ETA: 3:48 - loss: 0.0379 - accuracy: 0.9878
+24/51 [=============>................] - ETA: 3:41 - loss: 0.0378 - accuracy: 0.9876
+25/51 [=============>................] - ETA: 3:32 - loss: 0.0369 - accuracy: 0.9881
+26/51 [==============>...............] - ETA: 3:23 - loss: 0.0360 - accuracy: 0.9886
+27/51 [==============>...............] - ETA: 3:14 - loss: 0.0353 - accuracy: 0.9890
+28/51 [===============>..............] - ETA: 3:06 - loss: 0.0361 - accuracy: 0.9888
+29/51 [================>.............] - ETA: 2:57 - loss: 0.0364 - accuracy: 0.9881
+30/51 [================>.............] - ETA: 2:48 - loss: 0.0357 - accuracy: 0.9885
+31/51 [=================>............] - ETA: 2:40 - loss: 0.0352 - accuracy: 0.9889
+32/51 [=================>............] - ETA: 2:32 - loss: 0.0344 - accuracy: 0.9893
+33/51 [==================>...........] - ETA: 2:24 - loss: 0.0338 - accuracy: 0.9896
+34/51 [===================>..........] - ETA: 2:16 - loss: 0.0335 - accuracy: 0.9899
+35/51 [===================>..........] - ETA: 2:08 - loss: 0.0327 - accuracy: 0.9902
+36/51 [====================>.........] - ETA: 2:00 - loss: 0.0334 - accuracy: 0.9900
+37/51 [====================>.........] - ETA: 1:52 - loss: 0.0326 - accuracy: 0.9903
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0331 - accuracy: 0.9897
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.0325 - accuracy: 0.9900
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.0318 - accuracy: 0.9902
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0312 - accuracy: 0.9905
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0318 - accuracy: 0.9900
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0326 - accuracy: 0.9895
+44/51 [========================>.....] - ETA: 56s - loss: 0.0322 - accuracy: 0.9897 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0321 - accuracy: 0.9896
+46/51 [==========================>...] - ETA: 40s - loss: 0.0321 - accuracy: 0.9895
+47/51 [==========================>...] - ETA: 32s - loss: 0.0319 - accuracy: 0.9894
+48/51 [===========================>..] - ETA: 24s - loss: 0.0319 - accuracy: 0.9893
+49/51 [===========================>..] - ETA: 16s - loss: 0.0316 - accuracy: 0.9892
+50/51 [============================>.] - ETA: 8s - loss: 0.0312 - accuracy: 0.9894 
+51/51 [==============================] - 407s 8s/step - loss: 0.0307 - accuracy: 0.9896
+val_acc: 0.82230, best_val_acc: 0.83456, test_acc: 0.81043
+
+Epoch 8/20
+
+ 1/51 [..............................] - ETA: 6:50 - loss: 0.0243 - accuracy: 0.9844
+ 2/51 [>.............................] - ETA: 6:25 - loss: 0.0171 - accuracy: 0.9922
+ 3/51 [>.............................] - ETA: 6:09 - loss: 0.0309 - accuracy: 0.9896
+ 4/51 [=>............................] - ETA: 6:02 - loss: 0.0243 - accuracy: 0.9922
+ 5/51 [=>............................] - ETA: 6:03 - loss: 0.0244 - accuracy: 0.9937
+ 6/51 [==>...........................] - ETA: 5:52 - loss: 0.0218 - accuracy: 0.9948
+ 7/51 [===>..........................] - ETA: 5:40 - loss: 0.0271 - accuracy: 0.9933
+ 8/51 [===>..........................] - ETA: 5:30 - loss: 0.0248 - accuracy: 0.9941
+ 9/51 [====>.........................] - ETA: 5:23 - loss: 0.0228 - accuracy: 0.9948
+10/51 [====>.........................] - ETA: 5:17 - loss: 0.0210 - accuracy: 0.9953
+11/51 [=====>........................] - ETA: 5:08 - loss: 0.0199 - accuracy: 0.9957
+12/51 [======>.......................] - ETA: 5:02 - loss: 0.0191 - accuracy: 0.9961
+13/51 [======>.......................] - ETA: 4:55 - loss: 0.0246 - accuracy: 0.9952
+14/51 [=======>......................] - ETA: 4:47 - loss: 0.0232 - accuracy: 0.9955
+15/51 [=======>......................] - ETA: 4:39 - loss: 0.0222 - accuracy: 0.9958
+16/51 [========>.....................] - ETA: 4:33 - loss: 0.0230 - accuracy: 0.9951
+17/51 [=========>....................] - ETA: 4:27 - loss: 0.0219 - accuracy: 0.9954
+18/51 [=========>....................] - ETA: 4:18 - loss: 0.0210 - accuracy: 0.9957
+19/51 [==========>...................] - ETA: 4:11 - loss: 0.0254 - accuracy: 0.9942
+20/51 [==========>...................] - ETA: 4:04 - loss: 0.0246 - accuracy: 0.9945
+21/51 [===========>..................] - ETA: 3:58 - loss: 0.0247 - accuracy: 0.9940
+22/51 [===========>..................] - ETA: 3:49 - loss: 0.0238 - accuracy: 0.9943
+23/51 [============>.................] - ETA: 3:43 - loss: 0.0235 - accuracy: 0.9946
+24/51 [=============>................] - ETA: 3:34 - loss: 0.0251 - accuracy: 0.9935
+25/51 [=============>................] - ETA: 3:26 - loss: 0.0258 - accuracy: 0.9931
+26/51 [==============>...............] - ETA: 3:17 - loss: 0.0264 - accuracy: 0.9922
+27/51 [==============>...............] - ETA: 3:10 - loss: 0.0258 - accuracy: 0.9925
+28/51 [===============>..............] - ETA: 3:02 - loss: 0.0251 - accuracy: 0.9927
+29/51 [================>.............] - ETA: 2:54 - loss: 0.0266 - accuracy: 0.9919
+30/51 [================>.............] - ETA: 2:47 - loss: 0.0260 - accuracy: 0.9922
+31/51 [=================>............] - ETA: 2:39 - loss: 0.0254 - accuracy: 0.9924
+32/51 [=================>............] - ETA: 2:32 - loss: 0.0251 - accuracy: 0.9927
+33/51 [==================>...........] - ETA: 2:23 - loss: 0.0246 - accuracy: 0.9929
+34/51 [===================>..........] - ETA: 2:15 - loss: 0.0246 - accuracy: 0.9926
+35/51 [===================>..........] - ETA: 2:07 - loss: 0.0241 - accuracy: 0.9929
+36/51 [====================>.........] - ETA: 1:59 - loss: 0.0237 - accuracy: 0.9931
+37/51 [====================>.........] - ETA: 1:51 - loss: 0.0237 - accuracy: 0.9928
+38/51 [=====================>........] - ETA: 1:43 - loss: 0.0251 - accuracy: 0.9926
+39/51 [=====================>........] - ETA: 1:35 - loss: 0.0246 - accuracy: 0.9928
+40/51 [======================>.......] - ETA: 1:27 - loss: 0.0245 - accuracy: 0.9926
+41/51 [=======================>......] - ETA: 1:19 - loss: 0.0241 - accuracy: 0.9928
+42/51 [=======================>......] - ETA: 1:11 - loss: 0.0240 - accuracy: 0.9929
+43/51 [========================>.....] - ETA: 1:03 - loss: 0.0235 - accuracy: 0.9931
+44/51 [========================>.....] - ETA: 55s - loss: 0.0242 - accuracy: 0.9929 
+45/51 [=========================>....] - ETA: 47s - loss: 0.0238 - accuracy: 0.9931
+46/51 [==========================>...] - ETA: 39s - loss: 0.0233 - accuracy: 0.9932
+47/51 [==========================>...] - ETA: 31s - loss: 0.0234 - accuracy: 0.9930
+48/51 [===========================>..] - ETA: 23s - loss: 0.0232 - accuracy: 0.9932
+49/51 [===========================>..] - ETA: 15s - loss: 0.0229 - accuracy: 0.9933
+50/51 [============================>.] - ETA: 7s - loss: 0.0231 - accuracy: 0.9931 
+51/51 [==============================] - 408s 8s/step - loss: 0.0228 - accuracy: 0.9933
+val_acc: 0.83211, best_val_acc: 0.83456, test_acc: 0.81681
+
+Epoch 9/20
+
+ 1/51 [..............................] - ETA: 7:09 - loss: 0.0123 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:24 - loss: 0.0115 - accuracy: 1.0000
+ 3/51 [>.............................] - ETA: 6:14 - loss: 0.0084 - accuracy: 1.0000
+ 4/51 [=>............................] - ETA: 6:07 - loss: 0.0102 - accuracy: 1.0000
+ 5/51 [=>............................] - ETA: 6:00 - loss: 0.0098 - accuracy: 1.0000
+ 6/51 [==>...........................] - ETA: 5:51 - loss: 0.0113 - accuracy: 0.9974
+ 7/51 [===>..........................] - ETA: 5:43 - loss: 0.0104 - accuracy: 0.9978
+ 8/51 [===>..........................] - ETA: 5:38 - loss: 0.0217 - accuracy: 0.9961
+ 9/51 [====>.........................] - ETA: 5:38 - loss: 0.0196 - accuracy: 0.9965
+10/51 [====>.........................] - ETA: 5:30 - loss: 0.0179 - accuracy: 0.9969
+11/51 [=====>........................] - ETA: 5:23 - loss: 0.0209 - accuracy: 0.9957
+12/51 [======>.......................] - ETA: 5:19 - loss: 0.0197 - accuracy: 0.9961
+13/51 [======>.......................] - ETA: 5:10 - loss: 0.0208 - accuracy: 0.9952
+14/51 [=======>......................] - ETA: 5:00 - loss: 0.0202 - accuracy: 0.9955
+15/51 [=======>......................] - ETA: 4:52 - loss: 0.0191 - accuracy: 0.9958
+16/51 [========>.....................] - ETA: 4:42 - loss: 0.0203 - accuracy: 0.9951
+17/51 [=========>....................] - ETA: 4:34 - loss: 0.0194 - accuracy: 0.9954
+18/51 [=========>....................] - ETA: 4:27 - loss: 0.0185 - accuracy: 0.9957
+19/51 [==========>...................] - ETA: 4:21 - loss: 0.0179 - accuracy: 0.9959
+20/51 [==========>...................] - ETA: 4:12 - loss: 0.0182 - accuracy: 0.9953
+21/51 [===========>..................] - ETA: 4:04 - loss: 0.0178 - accuracy: 0.9955
+22/51 [===========>..................] - ETA: 3:55 - loss: 0.0185 - accuracy: 0.9950
+23/51 [============>.................] - ETA: 3:48 - loss: 0.0182 - accuracy: 0.9952
+24/51 [=============>................] - ETA: 3:39 - loss: 0.0202 - accuracy: 0.9941
+25/51 [=============>................] - ETA: 3:31 - loss: 0.0213 - accuracy: 0.9937
+26/51 [==============>...............] - ETA: 3:22 - loss: 0.0209 - accuracy: 0.9940
+27/51 [==============>...............] - ETA: 3:14 - loss: 0.0223 - accuracy: 0.9936
+28/51 [===============>..............] - ETA: 3:06 - loss: 0.0220 - accuracy: 0.9933
+29/51 [================>.............] - ETA: 2:58 - loss: 0.0243 - accuracy: 0.9925
+30/51 [================>.............] - ETA: 2:50 - loss: 0.0238 - accuracy: 0.9927
+31/51 [=================>............] - ETA: 2:41 - loss: 0.0232 - accuracy: 0.9929
+32/51 [=================>............] - ETA: 2:33 - loss: 0.0261 - accuracy: 0.9922
+33/51 [==================>...........] - ETA: 2:25 - loss: 0.0279 - accuracy: 0.9910
+34/51 [===================>..........] - ETA: 2:16 - loss: 0.0275 - accuracy: 0.9913
+35/51 [===================>..........] - ETA: 2:08 - loss: 0.0273 - accuracy: 0.9911
+36/51 [====================>.........] - ETA: 2:00 - loss: 0.0266 - accuracy: 0.9913
+37/51 [====================>.........] - ETA: 1:52 - loss: 0.0269 - accuracy: 0.9911
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0310 - accuracy: 0.9901
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.0304 - accuracy: 0.9904
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.0313 - accuracy: 0.9898
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0307 - accuracy: 0.9901
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0313 - accuracy: 0.9900
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0329 - accuracy: 0.9887
+44/51 [========================>.....] - ETA: 56s - loss: 0.0339 - accuracy: 0.9879 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0344 - accuracy: 0.9878
+46/51 [==========================>...] - ETA: 40s - loss: 0.0339 - accuracy: 0.9881
+47/51 [==========================>...] - ETA: 32s - loss: 0.0336 - accuracy: 0.9884
+48/51 [===========================>..] - ETA: 23s - loss: 0.0332 - accuracy: 0.9886
+49/51 [===========================>..] - ETA: 15s - loss: 0.0347 - accuracy: 0.9879
+50/51 [============================>.] - ETA: 8s - loss: 0.0344 - accuracy: 0.9881 
+51/51 [==============================] - 408s 8s/step - loss: 0.0350 - accuracy: 0.9880
+val_acc: 0.81005, best_val_acc: 0.83456, test_acc: 0.80870
+
+Epoch 10/20
+
+ 1/51 [..............................] - ETA: 6:04 - loss: 0.0152 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:16 - loss: 0.0337 - accuracy: 0.9922
+ 3/51 [>.............................] - ETA: 6:20 - loss: 0.0253 - accuracy: 0.9948
+ 4/51 [=>............................] - ETA: 6:10 - loss: 0.0207 - accuracy: 0.9961
+ 5/51 [=>............................] - ETA: 6:02 - loss: 0.0211 - accuracy: 0.9937
+ 6/51 [==>...........................] - ETA: 5:57 - loss: 0.0180 - accuracy: 0.9948
+ 7/51 [===>..........................] - ETA: 5:47 - loss: 0.0203 - accuracy: 0.9955
+ 8/51 [===>..........................] - ETA: 5:41 - loss: 0.0208 - accuracy: 0.9961
+ 9/51 [====>.........................] - ETA: 5:33 - loss: 0.0194 - accuracy: 0.9965
+10/51 [====>.........................] - ETA: 5:32 - loss: 0.0181 - accuracy: 0.9969
+11/51 [=====>........................] - ETA: 5:25 - loss: 0.0176 - accuracy: 0.9972
+12/51 [======>.......................] - ETA: 5:18 - loss: 0.0167 - accuracy: 0.9974
+13/51 [======>.......................] - ETA: 5:08 - loss: 0.0159 - accuracy: 0.9976
+14/51 [=======>......................] - ETA: 5:01 - loss: 0.0159 - accuracy: 0.9978
+15/51 [=======>......................] - ETA: 4:52 - loss: 0.0151 - accuracy: 0.9979
+16/51 [========>.....................] - ETA: 4:43 - loss: 0.0158 - accuracy: 0.9980
+17/51 [=========>....................] - ETA: 4:35 - loss: 0.0152 - accuracy: 0.9982
+18/51 [=========>....................] - ETA: 4:26 - loss: 0.0147 - accuracy: 0.9983
+19/51 [==========>...................] - ETA: 4:17 - loss: 0.0155 - accuracy: 0.9975
+20/51 [==========>...................] - ETA: 4:09 - loss: 0.0150 - accuracy: 0.9977
+21/51 [===========>..................] - ETA: 4:00 - loss: 0.0166 - accuracy: 0.9963
+22/51 [===========>..................] - ETA: 3:51 - loss: 0.0160 - accuracy: 0.9964
+23/51 [============>.................] - ETA: 3:43 - loss: 0.0185 - accuracy: 0.9959
+24/51 [=============>................] - ETA: 3:35 - loss: 0.0179 - accuracy: 0.9961
+25/51 [=============>................] - ETA: 3:28 - loss: 0.0174 - accuracy: 0.9962
+26/51 [==============>...............] - ETA: 3:20 - loss: 0.0169 - accuracy: 0.9964
+27/51 [==============>...............] - ETA: 3:11 - loss: 0.0164 - accuracy: 0.9965
+28/51 [===============>..............] - ETA: 3:03 - loss: 0.0162 - accuracy: 0.9967
+29/51 [================>.............] - ETA: 2:55 - loss: 0.0182 - accuracy: 0.9962
+30/51 [================>.............] - ETA: 2:47 - loss: 0.0178 - accuracy: 0.9964
+31/51 [=================>............] - ETA: 2:40 - loss: 0.0197 - accuracy: 0.9960
+32/51 [=================>............] - ETA: 2:32 - loss: 0.0192 - accuracy: 0.9961
+33/51 [==================>...........] - ETA: 2:24 - loss: 0.0189 - accuracy: 0.9962
+34/51 [===================>..........] - ETA: 2:16 - loss: 0.0185 - accuracy: 0.9963
+35/51 [===================>..........] - ETA: 2:08 - loss: 0.0181 - accuracy: 0.9964
+36/51 [====================>.........] - ETA: 2:00 - loss: 0.0177 - accuracy: 0.9965
+37/51 [====================>.........] - ETA: 1:52 - loss: 0.0174 - accuracy: 0.9966
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0171 - accuracy: 0.9967
+39/51 [=====================>........] - ETA: 1:37 - loss: 0.0174 - accuracy: 0.9964
+40/51 [======================>.......] - ETA: 1:29 - loss: 0.0178 - accuracy: 0.9961
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0189 - accuracy: 0.9954
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0186 - accuracy: 0.9955
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0183 - accuracy: 0.9956
+44/51 [========================>.....] - ETA: 56s - loss: 0.0180 - accuracy: 0.9957 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0188 - accuracy: 0.9955
+46/51 [==========================>...] - ETA: 40s - loss: 0.0190 - accuracy: 0.9952
+47/51 [==========================>...] - ETA: 32s - loss: 0.0188 - accuracy: 0.9953
+48/51 [===========================>..] - ETA: 24s - loss: 0.0186 - accuracy: 0.9954
+49/51 [===========================>..] - ETA: 16s - loss: 0.0183 - accuracy: 0.9955
+50/51 [============================>.] - ETA: 8s - loss: 0.0193 - accuracy: 0.9953 
+51/51 [==============================] - 410s 8s/step - loss: 0.0190 - accuracy: 0.9954
+val_acc: 0.82721, best_val_acc: 0.83456, test_acc: 0.81623
+
+Epoch 11/20
+
+ 1/51 [..............................] - ETA: 7:01 - loss: 0.0047 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:53 - loss: 0.0040 - accuracy: 1.0000
+ 3/51 [>.............................] - ETA: 6:58 - loss: 0.0052 - accuracy: 1.0000
+ 4/51 [=>............................] - ETA: 6:34 - loss: 0.0102 - accuracy: 0.9961
+ 5/51 [=>............................] - ETA: 6:17 - loss: 0.0121 - accuracy: 0.9937
+ 6/51 [==>...........................] - ETA: 6:07 - loss: 0.0140 - accuracy: 0.9948
+ 7/51 [===>..........................] - ETA: 5:53 - loss: 0.0127 - accuracy: 0.9955
+ 8/51 [===>..........................] - ETA: 5:41 - loss: 0.0121 - accuracy: 0.9961
+ 9/51 [====>.........................] - ETA: 5:35 - loss: 0.0110 - accuracy: 0.9965
+10/51 [====>.........................] - ETA: 5:30 - loss: 0.0125 - accuracy: 0.9953
+11/51 [=====>........................] - ETA: 5:27 - loss: 0.0117 - accuracy: 0.9957
+12/51 [======>.......................] - ETA: 5:17 - loss: 0.0109 - accuracy: 0.9961
+13/51 [======>.......................] - ETA: 5:09 - loss: 0.0133 - accuracy: 0.9952
+14/51 [=======>......................] - ETA: 5:00 - loss: 0.0141 - accuracy: 0.9944
+15/51 [=======>......................] - ETA: 4:51 - loss: 0.0134 - accuracy: 0.9948
+16/51 [========>.....................] - ETA: 4:41 - loss: 0.0128 - accuracy: 0.9951
+17/51 [=========>....................] - ETA: 4:32 - loss: 0.0121 - accuracy: 0.9954
+18/51 [=========>....................] - ETA: 4:24 - loss: 0.0116 - accuracy: 0.9957
+19/51 [==========>...................] - ETA: 4:15 - loss: 0.0111 - accuracy: 0.9959
+20/51 [==========>...................] - ETA: 4:07 - loss: 0.0107 - accuracy: 0.9961
+21/51 [===========>..................] - ETA: 3:59 - loss: 0.0103 - accuracy: 0.9963
+22/51 [===========>..................] - ETA: 3:52 - loss: 0.0102 - accuracy: 0.9964
+23/51 [============>.................] - ETA: 3:44 - loss: 0.0101 - accuracy: 0.9966
+24/51 [=============>................] - ETA: 3:35 - loss: 0.0098 - accuracy: 0.9967
+25/51 [=============>................] - ETA: 3:27 - loss: 0.0095 - accuracy: 0.9969
+26/51 [==============>...............] - ETA: 3:21 - loss: 0.0101 - accuracy: 0.9964
+27/51 [==============>...............] - ETA: 3:13 - loss: 0.0103 - accuracy: 0.9965
+28/51 [===============>..............] - ETA: 3:05 - loss: 0.0100 - accuracy: 0.9967
+29/51 [================>.............] - ETA: 2:56 - loss: 0.0098 - accuracy: 0.9968
+30/51 [================>.............] - ETA: 2:48 - loss: 0.0095 - accuracy: 0.9969
+31/51 [=================>............] - ETA: 2:39 - loss: 0.0093 - accuracy: 0.9970
+32/51 [=================>............] - ETA: 2:31 - loss: 0.0093 - accuracy: 0.9971
+33/51 [==================>...........] - ETA: 2:23 - loss: 0.0092 - accuracy: 0.9972
+34/51 [===================>..........] - ETA: 2:15 - loss: 0.0096 - accuracy: 0.9968
+35/51 [===================>..........] - ETA: 2:07 - loss: 0.0116 - accuracy: 0.9964
+36/51 [====================>.........] - ETA: 1:59 - loss: 0.0114 - accuracy: 0.9965
+37/51 [====================>.........] - ETA: 1:51 - loss: 0.0128 - accuracy: 0.9962
+38/51 [=====================>........] - ETA: 1:43 - loss: 0.0125 - accuracy: 0.9963
+39/51 [=====================>........] - ETA: 1:35 - loss: 0.0124 - accuracy: 0.9964
+40/51 [======================>.......] - ETA: 1:27 - loss: 0.0121 - accuracy: 0.9965
+41/51 [=======================>......] - ETA: 1:19 - loss: 0.0120 - accuracy: 0.9966
+42/51 [=======================>......] - ETA: 1:11 - loss: 0.0121 - accuracy: 0.9967
+43/51 [========================>.....] - ETA: 1:03 - loss: 0.0138 - accuracy: 0.9964
+44/51 [========================>.....] - ETA: 55s - loss: 0.0145 - accuracy: 0.9961 
+45/51 [=========================>....] - ETA: 47s - loss: 0.0143 - accuracy: 0.9962
+46/51 [==========================>...] - ETA: 39s - loss: 0.0157 - accuracy: 0.9956
+47/51 [==========================>...] - ETA: 31s - loss: 0.0170 - accuracy: 0.9953
+48/51 [===========================>..] - ETA: 23s - loss: 0.0167 - accuracy: 0.9954
+49/51 [===========================>..] - ETA: 15s - loss: 0.0165 - accuracy: 0.9955
+50/51 [============================>.] - ETA: 7s - loss: 0.0170 - accuracy: 0.9953 
+51/51 [==============================] - 405s 8s/step - loss: 0.0173 - accuracy: 0.9951
+val_acc: 0.76348, best_val_acc: 0.83456, test_acc: 0.79014
+
+Epoch 12/20
+
+ 1/51 [..............................] - ETA: 6:52 - loss: 0.0313 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:33 - loss: 0.0283 - accuracy: 1.0000
+ 3/51 [>.............................] - ETA: 6:30 - loss: 0.0196 - accuracy: 1.0000
+ 4/51 [=>............................] - ETA: 6:17 - loss: 0.0239 - accuracy: 0.9961
+ 5/51 [=>............................] - ETA: 6:03 - loss: 0.0199 - accuracy: 0.9969
+ 6/51 [==>...........................] - ETA: 5:58 - loss: 0.0192 - accuracy: 0.9974
+ 7/51 [===>..........................] - ETA: 5:50 - loss: 0.0199 - accuracy: 0.9955
+ 8/51 [===>..........................] - ETA: 5:42 - loss: 0.0249 - accuracy: 0.9922
+ 9/51 [====>.........................] - ETA: 5:35 - loss: 0.0331 - accuracy: 0.9878
+10/51 [====>.........................] - ETA: 5:33 - loss: 0.0304 - accuracy: 0.9891
+11/51 [=====>........................] - ETA: 5:26 - loss: 0.0284 - accuracy: 0.9901
+12/51 [======>.......................] - ETA: 5:15 - loss: 0.0268 - accuracy: 0.9909
+13/51 [======>.......................] - ETA: 5:11 - loss: 0.0265 - accuracy: 0.9904
+14/51 [=======>......................] - ETA: 5:02 - loss: 0.0286 - accuracy: 0.9888
+15/51 [=======>......................] - ETA: 4:54 - loss: 0.0268 - accuracy: 0.9896
+16/51 [========>.....................] - ETA: 4:45 - loss: 0.0253 - accuracy: 0.9902
+17/51 [=========>....................] - ETA: 4:37 - loss: 0.0259 - accuracy: 0.9899
+18/51 [=========>....................] - ETA: 4:28 - loss: 0.0258 - accuracy: 0.9896
+19/51 [==========>...................] - ETA: 4:19 - loss: 0.0246 - accuracy: 0.9901
+20/51 [==========>...................] - ETA: 4:09 - loss: 0.0235 - accuracy: 0.9906
+21/51 [===========>..................] - ETA: 4:02 - loss: 0.0226 - accuracy: 0.9911
+22/51 [===========>..................] - ETA: 3:54 - loss: 0.0218 - accuracy: 0.9915
+23/51 [============>.................] - ETA: 3:46 - loss: 0.0215 - accuracy: 0.9912
+24/51 [=============>................] - ETA: 3:38 - loss: 0.0222 - accuracy: 0.9909
+25/51 [=============>................] - ETA: 3:30 - loss: 0.0220 - accuracy: 0.9906
+26/51 [==============>...............] - ETA: 3:21 - loss: 0.0215 - accuracy: 0.9910
+27/51 [==============>...............] - ETA: 3:13 - loss: 0.0214 - accuracy: 0.9913
+28/51 [===============>..............] - ETA: 3:05 - loss: 0.0208 - accuracy: 0.9916
+29/51 [================>.............] - ETA: 2:57 - loss: 0.0202 - accuracy: 0.9919
+30/51 [================>.............] - ETA: 2:48 - loss: 0.0196 - accuracy: 0.9922
+31/51 [=================>............] - ETA: 2:40 - loss: 0.0191 - accuracy: 0.9924
+32/51 [=================>............] - ETA: 2:32 - loss: 0.0187 - accuracy: 0.9927
+33/51 [==================>...........] - ETA: 2:24 - loss: 0.0184 - accuracy: 0.9929
+34/51 [===================>..........] - ETA: 2:16 - loss: 0.0180 - accuracy: 0.9931
+35/51 [===================>..........] - ETA: 2:08 - loss: 0.0177 - accuracy: 0.9933
+36/51 [====================>.........] - ETA: 2:00 - loss: 0.0174 - accuracy: 0.9935
+37/51 [====================>.........] - ETA: 1:52 - loss: 0.0170 - accuracy: 0.9937
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0167 - accuracy: 0.9938
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.0163 - accuracy: 0.9940
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.0160 - accuracy: 0.9941
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0157 - accuracy: 0.9943
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0156 - accuracy: 0.9944
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0153 - accuracy: 0.9945
+44/51 [========================>.....] - ETA: 56s - loss: 0.0151 - accuracy: 0.9947 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0157 - accuracy: 0.9944
+46/51 [==========================>...] - ETA: 40s - loss: 0.0155 - accuracy: 0.9946
+47/51 [==========================>...] - ETA: 32s - loss: 0.0153 - accuracy: 0.9947
+48/51 [===========================>..] - ETA: 24s - loss: 0.0150 - accuracy: 0.9948
+49/51 [===========================>..] - ETA: 16s - loss: 0.0147 - accuracy: 0.9949
+50/51 [============================>.] - ETA: 8s - loss: 0.0145 - accuracy: 0.9950 
+51/51 [==============================] - 410s 8s/step - loss: 0.0142 - accuracy: 0.9951
+val_acc: 0.82721, best_val_acc: 0.83456, test_acc: 0.82551
+
+Epoch 13/20
+
+ 1/51 [..............................] - ETA: 7:08 - loss: 0.0059 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 7:16 - loss: 0.0043 - accuracy: 1.0000
+ 3/51 [>.............................] - ETA: 6:50 - loss: 0.0033 - accuracy: 1.0000
+ 4/51 [=>............................] - ETA: 6:30 - loss: 0.0031 - accuracy: 1.0000
+ 5/51 [=>............................] - ETA: 6:31 - loss: 0.0029 - accuracy: 1.0000
+ 6/51 [==>...........................] - ETA: 6:17 - loss: 0.0029 - accuracy: 1.0000
+ 7/51 [===>..........................] - ETA: 6:08 - loss: 0.0026 - accuracy: 1.0000
+ 8/51 [===>..........................] - ETA: 5:57 - loss: 0.0024 - accuracy: 1.0000
+ 9/51 [====>.........................] - ETA: 5:45 - loss: 0.0024 - accuracy: 1.0000
+10/51 [====>.........................] - ETA: 5:33 - loss: 0.0023 - accuracy: 1.0000
+11/51 [=====>........................] - ETA: 5:29 - loss: 0.0022 - accuracy: 1.0000
+12/51 [======>.......................] - ETA: 5:20 - loss: 0.0022 - accuracy: 1.0000
+13/51 [======>.......................] - ETA: 5:11 - loss: 0.0021 - accuracy: 1.0000
+14/51 [=======>......................] - ETA: 5:00 - loss: 0.0020 - accuracy: 1.0000
+15/51 [=======>......................] - ETA: 4:51 - loss: 0.0019 - accuracy: 1.0000
+16/51 [========>.....................] - ETA: 4:44 - loss: 0.0024 - accuracy: 1.0000
+17/51 [=========>....................] - ETA: 4:35 - loss: 0.0023 - accuracy: 1.0000
+18/51 [=========>....................] - ETA: 4:25 - loss: 0.0022 - accuracy: 1.0000
+19/51 [==========>...................] - ETA: 4:16 - loss: 0.0022 - accuracy: 1.0000
+20/51 [==========>...................] - ETA: 4:09 - loss: 0.0024 - accuracy: 1.0000
+21/51 [===========>..................] - ETA: 4:00 - loss: 0.0024 - accuracy: 1.0000
+22/51 [===========>..................] - ETA: 3:52 - loss: 0.0023 - accuracy: 1.0000
+23/51 [============>.................] - ETA: 3:43 - loss: 0.0023 - accuracy: 1.0000
+24/51 [=============>................] - ETA: 3:35 - loss: 0.0023 - accuracy: 1.0000
+25/51 [=============>................] - ETA: 3:27 - loss: 0.0023 - accuracy: 1.0000
+26/51 [==============>...............] - ETA: 3:19 - loss: 0.0035 - accuracy: 0.9994
+27/51 [==============>...............] - ETA: 3:11 - loss: 0.0035 - accuracy: 0.9994
+28/51 [===============>..............] - ETA: 3:03 - loss: 0.0045 - accuracy: 0.9983
+29/51 [================>.............] - ETA: 2:55 - loss: 0.0058 - accuracy: 0.9978
+30/51 [================>.............] - ETA: 2:46 - loss: 0.0057 - accuracy: 0.9979
+31/51 [=================>............] - ETA: 2:39 - loss: 0.0055 - accuracy: 0.9980
+32/51 [=================>............] - ETA: 2:30 - loss: 0.0054 - accuracy: 0.9980
+33/51 [==================>...........] - ETA: 2:22 - loss: 0.0053 - accuracy: 0.9981
+34/51 [===================>..........] - ETA: 2:14 - loss: 0.0052 - accuracy: 0.9982
+35/51 [===================>..........] - ETA: 2:07 - loss: 0.0059 - accuracy: 0.9978
+36/51 [====================>.........] - ETA: 1:59 - loss: 0.0060 - accuracy: 0.9978
+37/51 [====================>.........] - ETA: 1:51 - loss: 0.0058 - accuracy: 0.9979
+38/51 [=====================>........] - ETA: 1:43 - loss: 0.0076 - accuracy: 0.9975
+39/51 [=====================>........] - ETA: 1:35 - loss: 0.0074 - accuracy: 0.9976
+40/51 [======================>.......] - ETA: 1:27 - loss: 0.0086 - accuracy: 0.9973
+41/51 [=======================>......] - ETA: 1:19 - loss: 0.0086 - accuracy: 0.9973
+42/51 [=======================>......] - ETA: 1:11 - loss: 0.0085 - accuracy: 0.9974
+43/51 [========================>.....] - ETA: 1:03 - loss: 0.0107 - accuracy: 0.9964
+44/51 [========================>.....] - ETA: 55s - loss: 0.0105 - accuracy: 0.9964 
+45/51 [=========================>....] - ETA: 47s - loss: 0.0113 - accuracy: 0.9962
+46/51 [==========================>...] - ETA: 39s - loss: 0.0111 - accuracy: 0.9963
+47/51 [==========================>...] - ETA: 31s - loss: 0.0109 - accuracy: 0.9963
+48/51 [===========================>..] - ETA: 23s - loss: 0.0107 - accuracy: 0.9964
+49/51 [===========================>..] - ETA: 15s - loss: 0.0106 - accuracy: 0.9965
+50/51 [============================>.] - ETA: 7s - loss: 0.0107 - accuracy: 0.9966 
+51/51 [==============================] - 407s 8s/step - loss: 0.0106 - accuracy: 0.9966
+val_acc: 0.82475, best_val_acc: 0.83456, test_acc: 0.81159
+
+Epoch 14/20
+
+ 1/51 [..............................] - ETA: 6:36 - loss: 0.0023 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:27 - loss: 0.0081 - accuracy: 1.0000
+ 3/51 [>.............................] - ETA: 6:13 - loss: 0.0073 - accuracy: 1.0000
+ 4/51 [=>............................] - ETA: 6:06 - loss: 0.0065 - accuracy: 1.0000
+ 5/51 [=>............................] - ETA: 6:12 - loss: 0.0055 - accuracy: 1.0000
+ 6/51 [==>...........................] - ETA: 6:02 - loss: 0.0047 - accuracy: 1.0000
+ 7/51 [===>..........................] - ETA: 5:57 - loss: 0.0043 - accuracy: 1.0000
+ 8/51 [===>..........................] - ETA: 5:46 - loss: 0.0040 - accuracy: 1.0000
+ 9/51 [====>.........................] - ETA: 5:37 - loss: 0.0038 - accuracy: 1.0000
+10/51 [====>.........................] - ETA: 5:31 - loss: 0.0036 - accuracy: 1.0000
+11/51 [=====>........................] - ETA: 5:22 - loss: 0.0034 - accuracy: 1.0000
+12/51 [======>.......................] - ETA: 5:15 - loss: 0.0066 - accuracy: 0.9987
+13/51 [======>.......................] - ETA: 5:06 - loss: 0.0087 - accuracy: 0.9976
+14/51 [=======>......................] - ETA: 4:58 - loss: 0.0094 - accuracy: 0.9967
+15/51 [=======>......................] - ETA: 4:51 - loss: 0.0088 - accuracy: 0.9969
+16/51 [========>.....................] - ETA: 4:43 - loss: 0.0085 - accuracy: 0.9971
+17/51 [=========>....................] - ETA: 4:35 - loss: 0.0086 - accuracy: 0.9972
+18/51 [=========>....................] - ETA: 4:26 - loss: 0.0082 - accuracy: 0.9974
+19/51 [==========>...................] - ETA: 4:16 - loss: 0.0086 - accuracy: 0.9967
+20/51 [==========>...................] - ETA: 4:09 - loss: 0.0090 - accuracy: 0.9961
+21/51 [===========>..................] - ETA: 4:00 - loss: 0.0087 - accuracy: 0.9963
+22/51 [===========>..................] - ETA: 3:54 - loss: 0.0083 - accuracy: 0.9964
+23/51 [============>.................] - ETA: 3:46 - loss: 0.0081 - accuracy: 0.9966
+24/51 [=============>................] - ETA: 3:38 - loss: 0.0080 - accuracy: 0.9967
+25/51 [=============>................] - ETA: 3:30 - loss: 0.0077 - accuracy: 0.9969
+26/51 [==============>...............] - ETA: 3:22 - loss: 0.0076 - accuracy: 0.9970
+27/51 [==============>...............] - ETA: 3:13 - loss: 0.0080 - accuracy: 0.9965
+28/51 [===============>..............] - ETA: 3:06 - loss: 0.0078 - accuracy: 0.9967
+29/51 [================>.............] - ETA: 2:57 - loss: 0.0096 - accuracy: 0.9957
+30/51 [================>.............] - ETA: 2:49 - loss: 0.0093 - accuracy: 0.9958
+31/51 [=================>............] - ETA: 2:42 - loss: 0.0114 - accuracy: 0.9950
+32/51 [=================>............] - ETA: 2:34 - loss: 0.0111 - accuracy: 0.9951
+33/51 [==================>...........] - ETA: 2:25 - loss: 0.0109 - accuracy: 0.9953
+34/51 [===================>..........] - ETA: 2:17 - loss: 0.0107 - accuracy: 0.9954
+35/51 [===================>..........] - ETA: 2:09 - loss: 0.0116 - accuracy: 0.9951
+36/51 [====================>.........] - ETA: 2:02 - loss: 0.0126 - accuracy: 0.9948
+37/51 [====================>.........] - ETA: 1:54 - loss: 0.0129 - accuracy: 0.9949
+38/51 [=====================>........] - ETA: 1:45 - loss: 0.0143 - accuracy: 0.9942
+39/51 [=====================>........] - ETA: 1:37 - loss: 0.0141 - accuracy: 0.9944
+40/51 [======================>.......] - ETA: 1:29 - loss: 0.0137 - accuracy: 0.9945
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0135 - accuracy: 0.9947
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0135 - accuracy: 0.9948
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0196 - accuracy: 0.9935
+44/51 [========================>.....] - ETA: 56s - loss: 0.0205 - accuracy: 0.9929 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0202 - accuracy: 0.9931
+46/51 [==========================>...] - ETA: 40s - loss: 0.0203 - accuracy: 0.9929
+47/51 [==========================>...] - ETA: 32s - loss: 0.0199 - accuracy: 0.9930
+48/51 [===========================>..] - ETA: 24s - loss: 0.0196 - accuracy: 0.9932
+49/51 [===========================>..] - ETA: 16s - loss: 0.0192 - accuracy: 0.9933
+50/51 [============================>.] - ETA: 8s - loss: 0.0188 - accuracy: 0.9934 
+51/51 [==============================] - 409s 8s/step - loss: 0.0199 - accuracy: 0.9933
+val_acc: 0.81250, best_val_acc: 0.83456, test_acc: 0.80928
+
+Epoch 15/20
+
+ 1/51 [..............................] - ETA: 6:28 - loss: 0.0053 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:27 - loss: 0.0303 - accuracy: 0.9844
+ 3/51 [>.............................] - ETA: 6:16 - loss: 0.0526 - accuracy: 0.9688
+ 4/51 [=>............................] - ETA: 6:10 - loss: 0.0482 - accuracy: 0.9727
+ 5/51 [=>............................] - ETA: 5:56 - loss: 0.0497 - accuracy: 0.9719
+ 6/51 [==>...........................] - ETA: 5:49 - loss: 0.0420 - accuracy: 0.9766
+ 7/51 [===>..........................] - ETA: 5:44 - loss: 0.0363 - accuracy: 0.9799
+ 8/51 [===>..........................] - ETA: 5:36 - loss: 0.0324 - accuracy: 0.9824
+ 9/51 [====>.........................] - ETA: 5:27 - loss: 0.0324 - accuracy: 0.9826
+10/51 [====>.........................] - ETA: 5:20 - loss: 0.0298 - accuracy: 0.9844
+11/51 [=====>........................] - ETA: 5:14 - loss: 0.0307 - accuracy: 0.9844
+12/51 [======>.......................] - ETA: 5:06 - loss: 0.0318 - accuracy: 0.9831
+13/51 [======>.......................] - ETA: 5:03 - loss: 0.0297 - accuracy: 0.9844
+14/51 [=======>......................] - ETA: 4:54 - loss: 0.0278 - accuracy: 0.9855
+15/51 [=======>......................] - ETA: 4:46 - loss: 0.0266 - accuracy: 0.9865
+16/51 [========>.....................] - ETA: 4:39 - loss: 0.0253 - accuracy: 0.9873
+17/51 [=========>....................] - ETA: 4:32 - loss: 0.0239 - accuracy: 0.9881
+18/51 [=========>....................] - ETA: 4:23 - loss: 0.0227 - accuracy: 0.9887
+19/51 [==========>...................] - ETA: 4:14 - loss: 0.0216 - accuracy: 0.9893
+20/51 [==========>...................] - ETA: 4:06 - loss: 0.0207 - accuracy: 0.9898
+21/51 [===========>..................] - ETA: 3:58 - loss: 0.0203 - accuracy: 0.9903
+22/51 [===========>..................] - ETA: 3:50 - loss: 0.0200 - accuracy: 0.9901
+23/51 [============>.................] - ETA: 3:43 - loss: 0.0206 - accuracy: 0.9898
+24/51 [=============>................] - ETA: 3:35 - loss: 0.0211 - accuracy: 0.9896
+25/51 [=============>................] - ETA: 3:29 - loss: 0.0218 - accuracy: 0.9894
+26/51 [==============>...............] - ETA: 3:21 - loss: 0.0210 - accuracy: 0.9898
+27/51 [==============>...............] - ETA: 3:13 - loss: 0.0203 - accuracy: 0.9902
+28/51 [===============>..............] - ETA: 3:05 - loss: 0.0197 - accuracy: 0.9905
+29/51 [================>.............] - ETA: 2:58 - loss: 0.0191 - accuracy: 0.9908
+30/51 [================>.............] - ETA: 2:51 - loss: 0.0192 - accuracy: 0.9906
+31/51 [=================>............] - ETA: 2:42 - loss: 0.0187 - accuracy: 0.9909
+32/51 [=================>............] - ETA: 2:33 - loss: 0.0191 - accuracy: 0.9907
+33/51 [==================>...........] - ETA: 2:25 - loss: 0.0187 - accuracy: 0.9910
+34/51 [===================>..........] - ETA: 2:17 - loss: 0.0189 - accuracy: 0.9908
+35/51 [===================>..........] - ETA: 2:09 - loss: 0.0186 - accuracy: 0.9911
+36/51 [====================>.........] - ETA: 2:00 - loss: 0.0183 - accuracy: 0.9913
+37/51 [====================>.........] - ETA: 1:52 - loss: 0.0190 - accuracy: 0.9907
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0186 - accuracy: 0.9910
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.0188 - accuracy: 0.9908
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.0200 - accuracy: 0.9906
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0227 - accuracy: 0.9897
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0269 - accuracy: 0.9881
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0263 - accuracy: 0.9884
+44/51 [========================>.....] - ETA: 56s - loss: 0.0261 - accuracy: 0.9883 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0257 - accuracy: 0.9885
+46/51 [==========================>...] - ETA: 40s - loss: 0.0252 - accuracy: 0.9888
+47/51 [==========================>...] - ETA: 32s - loss: 0.0254 - accuracy: 0.9887
+48/51 [===========================>..] - ETA: 24s - loss: 0.0251 - accuracy: 0.9889
+49/51 [===========================>..] - ETA: 16s - loss: 0.0248 - accuracy: 0.9892
+50/51 [============================>.] - ETA: 8s - loss: 0.0244 - accuracy: 0.9894 
+51/51 [==============================] - 410s 8s/step - loss: 0.0246 - accuracy: 0.9893
+val_acc: 0.79044, best_val_acc: 0.83456, test_acc: 0.80406
+
+Epoch 16/20
+
+ 1/51 [..............................] - ETA: 6:51 - loss: 0.0093 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:37 - loss: 0.0060 - accuracy: 1.0000
+ 3/51 [>.............................] - ETA: 6:17 - loss: 0.0071 - accuracy: 1.0000
+ 4/51 [=>............................] - ETA: 6:17 - loss: 0.0055 - accuracy: 1.0000
+ 5/51 [=>............................] - ETA: 6:06 - loss: 0.0054 - accuracy: 1.0000
+ 6/51 [==>...........................] - ETA: 5:59 - loss: 0.0049 - accuracy: 1.0000
+ 7/51 [===>..........................] - ETA: 5:46 - loss: 0.0044 - accuracy: 1.0000
+ 8/51 [===>..........................] - ETA: 5:36 - loss: 0.0043 - accuracy: 1.0000
+ 9/51 [====>.........................] - ETA: 5:28 - loss: 0.0080 - accuracy: 0.9983
+10/51 [====>.........................] - ETA: 5:23 - loss: 0.0073 - accuracy: 0.9984
+11/51 [=====>........................] - ETA: 5:16 - loss: 0.0072 - accuracy: 0.9986
+12/51 [======>.......................] - ETA: 5:10 - loss: 0.0068 - accuracy: 0.9987
+13/51 [======>.......................] - ETA: 5:02 - loss: 0.0066 - accuracy: 0.9988
+14/51 [=======>......................] - ETA: 4:55 - loss: 0.0063 - accuracy: 0.9989
+15/51 [=======>......................] - ETA: 4:48 - loss: 0.0060 - accuracy: 0.9990
+16/51 [========>.....................] - ETA: 4:39 - loss: 0.0057 - accuracy: 0.9990
+17/51 [=========>....................] - ETA: 4:31 - loss: 0.0055 - accuracy: 0.9991
+18/51 [=========>....................] - ETA: 4:23 - loss: 0.0053 - accuracy: 0.9991
+19/51 [==========>...................] - ETA: 4:17 - loss: 0.0051 - accuracy: 0.9992
+20/51 [==========>...................] - ETA: 4:09 - loss: 0.0049 - accuracy: 0.9992
+21/51 [===========>..................] - ETA: 4:01 - loss: 0.0047 - accuracy: 0.9993
+22/51 [===========>..................] - ETA: 3:52 - loss: 0.0046 - accuracy: 0.9993
+23/51 [============>.................] - ETA: 3:43 - loss: 0.0057 - accuracy: 0.9986
+24/51 [=============>................] - ETA: 3:34 - loss: 0.0066 - accuracy: 0.9980
+25/51 [=============>................] - ETA: 3:26 - loss: 0.0065 - accuracy: 0.9981
+26/51 [==============>...............] - ETA: 3:19 - loss: 0.0064 - accuracy: 0.9982
+27/51 [==============>...............] - ETA: 3:11 - loss: 0.0062 - accuracy: 0.9983
+28/51 [===============>..............] - ETA: 3:03 - loss: 0.0077 - accuracy: 0.9972
+29/51 [================>.............] - ETA: 2:55 - loss: 0.0075 - accuracy: 0.9973
+30/51 [================>.............] - ETA: 2:47 - loss: 0.0074 - accuracy: 0.9974
+31/51 [=================>............] - ETA: 2:40 - loss: 0.0073 - accuracy: 0.9975
+32/51 [=================>............] - ETA: 2:31 - loss: 0.0071 - accuracy: 0.9976
+33/51 [==================>...........] - ETA: 2:23 - loss: 0.0072 - accuracy: 0.9976
+34/51 [===================>..........] - ETA: 2:15 - loss: 0.0072 - accuracy: 0.9977
+35/51 [===================>..........] - ETA: 2:08 - loss: 0.0095 - accuracy: 0.9973
+36/51 [====================>.........] - ETA: 1:59 - loss: 0.0095 - accuracy: 0.9974
+37/51 [====================>.........] - ETA: 1:51 - loss: 0.0093 - accuracy: 0.9975
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0091 - accuracy: 0.9975
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.0101 - accuracy: 0.9972
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.0099 - accuracy: 0.9973
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0110 - accuracy: 0.9966
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0107 - accuracy: 0.9967
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0106 - accuracy: 0.9967
+44/51 [========================>.....] - ETA: 56s - loss: 0.0104 - accuracy: 0.9968 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0103 - accuracy: 0.9969
+46/51 [==========================>...] - ETA: 40s - loss: 0.0101 - accuracy: 0.9969
+47/51 [==========================>...] - ETA: 32s - loss: 0.0099 - accuracy: 0.9970
+48/51 [===========================>..] - ETA: 24s - loss: 0.0097 - accuracy: 0.9971
+49/51 [===========================>..] - ETA: 16s - loss: 0.0097 - accuracy: 0.9971
+50/51 [============================>.] - ETA: 8s - loss: 0.0095 - accuracy: 0.9972 
+51/51 [==============================] - 410s 8s/step - loss: 0.0094 - accuracy: 0.9972
+val_acc: 0.80147, best_val_acc: 0.83456, test_acc: 0.80406
+
+Epoch 17/20
+
+ 1/51 [..............................] - ETA: 6:55 - loss: 0.0019 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:34 - loss: 0.0022 - accuracy: 1.0000
+ 3/51 [>.............................] - ETA: 6:34 - loss: 0.0054 - accuracy: 0.9948
+ 4/51 [=>............................] - ETA: 6:32 - loss: 0.0069 - accuracy: 0.9961
+ 5/51 [=>............................] - ETA: 6:15 - loss: 0.0074 - accuracy: 0.9969
+ 6/51 [==>...........................] - ETA: 6:04 - loss: 0.0063 - accuracy: 0.9974
+ 7/51 [===>..........................] - ETA: 5:57 - loss: 0.0064 - accuracy: 0.9978
+ 8/51 [===>..........................] - ETA: 5:48 - loss: 0.0077 - accuracy: 0.9961
+ 9/51 [====>.........................] - ETA: 5:39 - loss: 0.0071 - accuracy: 0.9965
+10/51 [====>.........................] - ETA: 5:36 - loss: 0.0066 - accuracy: 0.9969
+11/51 [=====>........................] - ETA: 5:28 - loss: 0.0061 - accuracy: 0.9972
+12/51 [======>.......................] - ETA: 5:19 - loss: 0.0062 - accuracy: 0.9974
+13/51 [======>.......................] - ETA: 5:14 - loss: 0.0058 - accuracy: 0.9976
+14/51 [=======>......................] - ETA: 5:04 - loss: 0.0074 - accuracy: 0.9967
+15/51 [=======>......................] - ETA: 4:57 - loss: 0.0118 - accuracy: 0.9958
+16/51 [========>.....................] - ETA: 4:48 - loss: 0.0115 - accuracy: 0.9961
+17/51 [=========>....................] - ETA: 4:39 - loss: 0.0114 - accuracy: 0.9963
+18/51 [=========>....................] - ETA: 4:30 - loss: 0.0114 - accuracy: 0.9965
+19/51 [==========>...................] - ETA: 4:21 - loss: 0.0109 - accuracy: 0.9967
+20/51 [==========>...................] - ETA: 4:12 - loss: 0.0107 - accuracy: 0.9969
+21/51 [===========>..................] - ETA: 4:04 - loss: 0.0124 - accuracy: 0.9963
+22/51 [===========>..................] - ETA: 3:55 - loss: 0.0143 - accuracy: 0.9957
+23/51 [============>.................] - ETA: 3:47 - loss: 0.0140 - accuracy: 0.9959
+24/51 [=============>................] - ETA: 3:39 - loss: 0.0138 - accuracy: 0.9961
+25/51 [=============>................] - ETA: 3:30 - loss: 0.0133 - accuracy: 0.9962
+26/51 [==============>...............] - ETA: 3:22 - loss: 0.0128 - accuracy: 0.9964
+27/51 [==============>...............] - ETA: 3:14 - loss: 0.0126 - accuracy: 0.9965
+28/51 [===============>..............] - ETA: 3:06 - loss: 0.0123 - accuracy: 0.9967
+29/51 [================>.............] - ETA: 2:57 - loss: 0.0123 - accuracy: 0.9968
+30/51 [================>.............] - ETA: 2:49 - loss: 0.0119 - accuracy: 0.9969
+31/51 [=================>............] - ETA: 2:42 - loss: 0.0117 - accuracy: 0.9970
+32/51 [=================>............] - ETA: 2:34 - loss: 0.0114 - accuracy: 0.9971
+33/51 [==================>...........] - ETA: 2:25 - loss: 0.0134 - accuracy: 0.9962
+34/51 [===================>..........] - ETA: 2:17 - loss: 0.0131 - accuracy: 0.9963
+35/51 [===================>..........] - ETA: 2:09 - loss: 0.0133 - accuracy: 0.9960
+36/51 [====================>.........] - ETA: 2:01 - loss: 0.0129 - accuracy: 0.9961
+37/51 [====================>.........] - ETA: 1:53 - loss: 0.0126 - accuracy: 0.9962
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0124 - accuracy: 0.9963
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.0121 - accuracy: 0.9964
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.0119 - accuracy: 0.9965
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0117 - accuracy: 0.9966
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0115 - accuracy: 0.9967
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0112 - accuracy: 0.9967
+44/51 [========================>.....] - ETA: 56s - loss: 0.0110 - accuracy: 0.9968 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0108 - accuracy: 0.9969
+46/51 [==========================>...] - ETA: 40s - loss: 0.0106 - accuracy: 0.9969
+47/51 [==========================>...] - ETA: 32s - loss: 0.0110 - accuracy: 0.9967
+48/51 [===========================>..] - ETA: 24s - loss: 0.0108 - accuracy: 0.9967
+49/51 [===========================>..] - ETA: 16s - loss: 0.0108 - accuracy: 0.9968
+50/51 [============================>.] - ETA: 8s - loss: 0.0106 - accuracy: 0.9969 
+51/51 [==============================] - 410s 8s/step - loss: 0.0104 - accuracy: 0.9969
+val_acc: 0.82108, best_val_acc: 0.83456, test_acc: 0.82261
+
+Epoch 18/20
+
+ 1/51 [..............................] - ETA: 7:02 - loss: 0.0038 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:55 - loss: 0.0030 - accuracy: 1.0000
+ 3/51 [>.............................] - ETA: 6:34 - loss: 0.0116 - accuracy: 0.9948
+ 4/51 [=>............................] - ETA: 6:19 - loss: 0.0092 - accuracy: 0.9961
+ 5/51 [=>............................] - ETA: 6:11 - loss: 0.0075 - accuracy: 0.9969
+ 6/51 [==>...........................] - ETA: 6:03 - loss: 0.0122 - accuracy: 0.9948
+ 7/51 [===>..........................] - ETA: 5:57 - loss: 0.0106 - accuracy: 0.9955
+ 8/51 [===>..........................] - ETA: 5:48 - loss: 0.0094 - accuracy: 0.9961
+ 9/51 [====>.........................] - ETA: 5:41 - loss: 0.0084 - accuracy: 0.9965
+10/51 [====>.........................] - ETA: 5:30 - loss: 0.0081 - accuracy: 0.9969
+11/51 [=====>........................] - ETA: 5:19 - loss: 0.0079 - accuracy: 0.9972
+12/51 [======>.......................] - ETA: 5:14 - loss: 0.0078 - accuracy: 0.9974
+13/51 [======>.......................] - ETA: 5:05 - loss: 0.0074 - accuracy: 0.9976
+14/51 [=======>......................] - ETA: 4:58 - loss: 0.0070 - accuracy: 0.9978
+15/51 [=======>......................] - ETA: 4:52 - loss: 0.0071 - accuracy: 0.9979
+16/51 [========>.....................] - ETA: 4:43 - loss: 0.0088 - accuracy: 0.9971
+17/51 [=========>....................] - ETA: 4:33 - loss: 0.0085 - accuracy: 0.9972
+18/51 [=========>....................] - ETA: 4:24 - loss: 0.0081 - accuracy: 0.9974
+19/51 [==========>...................] - ETA: 4:16 - loss: 0.0080 - accuracy: 0.9975
+20/51 [==========>...................] - ETA: 4:08 - loss: 0.0077 - accuracy: 0.9977
+21/51 [===========>..................] - ETA: 4:00 - loss: 0.0074 - accuracy: 0.9978
+22/51 [===========>..................] - ETA: 3:52 - loss: 0.0071 - accuracy: 0.9979
+23/51 [============>.................] - ETA: 3:46 - loss: 0.0069 - accuracy: 0.9980
+24/51 [=============>................] - ETA: 3:37 - loss: 0.0071 - accuracy: 0.9980
+25/51 [=============>................] - ETA: 3:30 - loss: 0.0069 - accuracy: 0.9981
+26/51 [==============>...............] - ETA: 3:22 - loss: 0.0067 - accuracy: 0.9982
+27/51 [==============>...............] - ETA: 3:14 - loss: 0.0065 - accuracy: 0.9983
+28/51 [===============>..............] - ETA: 3:06 - loss: 0.0064 - accuracy: 0.9983
+29/51 [================>.............] - ETA: 2:57 - loss: 0.0063 - accuracy: 0.9984
+30/51 [================>.............] - ETA: 2:49 - loss: 0.0061 - accuracy: 0.9984
+31/51 [=================>............] - ETA: 2:41 - loss: 0.0060 - accuracy: 0.9985
+32/51 [=================>............] - ETA: 2:34 - loss: 0.0058 - accuracy: 0.9985
+33/51 [==================>...........] - ETA: 2:25 - loss: 0.0057 - accuracy: 0.9986
+34/51 [===================>..........] - ETA: 2:17 - loss: 0.0056 - accuracy: 0.9986
+35/51 [===================>..........] - ETA: 2:09 - loss: 0.0055 - accuracy: 0.9987
+36/51 [====================>.........] - ETA: 2:01 - loss: 0.0054 - accuracy: 0.9987
+37/51 [====================>.........] - ETA: 1:52 - loss: 0.0053 - accuracy: 0.9987
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0052 - accuracy: 0.9988
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.0051 - accuracy: 0.9988
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.0050 - accuracy: 0.9988
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0049 - accuracy: 0.9989
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0048 - accuracy: 0.9989
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0047 - accuracy: 0.9989
+44/51 [========================>.....] - ETA: 56s - loss: 0.0050 - accuracy: 0.9986 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0051 - accuracy: 0.9986
+46/51 [==========================>...] - ETA: 40s - loss: 0.0050 - accuracy: 0.9986
+47/51 [==========================>...] - ETA: 32s - loss: 0.0049 - accuracy: 0.9987
+48/51 [===========================>..] - ETA: 24s - loss: 0.0048 - accuracy: 0.9987
+49/51 [===========================>..] - ETA: 16s - loss: 0.0048 - accuracy: 0.9987
+50/51 [============================>.] - ETA: 8s - loss: 0.0047 - accuracy: 0.9987 
+51/51 [==============================] - 410s 8s/step - loss: 0.0046 - accuracy: 0.9988
+val_acc: 0.81618, best_val_acc: 0.83456, test_acc: 0.82203
+
+Epoch 19/20
+
+ 1/51 [..............................] - ETA: 6:58 - loss: 5.9408e-04 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:37 - loss: 0.0109 - accuracy: 0.9922    
+ 3/51 [>.............................] - ETA: 6:33 - loss: 0.0075 - accuracy: 0.9948
+ 4/51 [=>............................] - ETA: 6:17 - loss: 0.0059 - accuracy: 0.9961
+ 5/51 [=>............................] - ETA: 6:20 - loss: 0.0115 - accuracy: 0.9937
+ 6/51 [==>...........................] - ETA: 6:08 - loss: 0.0098 - accuracy: 0.9948
+ 7/51 [===>..........................] - ETA: 5:59 - loss: 0.0086 - accuracy: 0.9955
+ 8/51 [===>..........................] - ETA: 5:48 - loss: 0.0076 - accuracy: 0.9961
+ 9/51 [====>.........................] - ETA: 5:38 - loss: 0.0076 - accuracy: 0.9965
+10/51 [====>.........................] - ETA: 5:28 - loss: 0.0076 - accuracy: 0.9969
+11/51 [=====>........................] - ETA: 5:19 - loss: 0.0070 - accuracy: 0.9972
+12/51 [======>.......................] - ETA: 5:11 - loss: 0.0065 - accuracy: 0.9974
+13/51 [======>.......................] - ETA: 5:03 - loss: 0.0061 - accuracy: 0.9976
+14/51 [=======>......................] - ETA: 4:56 - loss: 0.0057 - accuracy: 0.9978
+15/51 [=======>......................] - ETA: 4:47 - loss: 0.0055 - accuracy: 0.9979
+16/51 [========>.....................] - ETA: 4:40 - loss: 0.0052 - accuracy: 0.9980
+17/51 [=========>....................] - ETA: 4:32 - loss: 0.0078 - accuracy: 0.9972
+18/51 [=========>....................] - ETA: 4:24 - loss: 0.0082 - accuracy: 0.9965
+19/51 [==========>...................] - ETA: 4:15 - loss: 0.0079 - accuracy: 0.9967
+20/51 [==========>...................] - ETA: 4:07 - loss: 0.0076 - accuracy: 0.9969
+21/51 [===========>..................] - ETA: 4:00 - loss: 0.0073 - accuracy: 0.9970
+22/51 [===========>..................] - ETA: 3:52 - loss: 0.0071 - accuracy: 0.9972
+23/51 [============>.................] - ETA: 3:43 - loss: 0.0068 - accuracy: 0.9973
+24/51 [=============>................] - ETA: 3:35 - loss: 0.0067 - accuracy: 0.9974
+25/51 [=============>................] - ETA: 3:27 - loss: 0.0064 - accuracy: 0.9975
+26/51 [==============>...............] - ETA: 3:21 - loss: 0.0063 - accuracy: 0.9976
+27/51 [==============>...............] - ETA: 3:13 - loss: 0.0061 - accuracy: 0.9977
+28/51 [===============>..............] - ETA: 3:06 - loss: 0.0076 - accuracy: 0.9972
+29/51 [================>.............] - ETA: 2:59 - loss: 0.0074 - accuracy: 0.9973
+30/51 [================>.............] - ETA: 2:50 - loss: 0.0072 - accuracy: 0.9974
+31/51 [=================>............] - ETA: 2:41 - loss: 0.0070 - accuracy: 0.9975
+32/51 [=================>............] - ETA: 2:34 - loss: 0.0068 - accuracy: 0.9976
+33/51 [==================>...........] - ETA: 2:25 - loss: 0.0066 - accuracy: 0.9976
+34/51 [===================>..........] - ETA: 2:17 - loss: 0.0065 - accuracy: 0.9977
+35/51 [===================>..........] - ETA: 2:09 - loss: 0.0063 - accuracy: 0.9978
+36/51 [====================>.........] - ETA: 2:01 - loss: 0.0062 - accuracy: 0.9978
+37/51 [====================>.........] - ETA: 1:53 - loss: 0.0061 - accuracy: 0.9979
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0066 - accuracy: 0.9975
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.0066 - accuracy: 0.9976
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.0064 - accuracy: 0.9977
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0065 - accuracy: 0.9977
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0064 - accuracy: 0.9978
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0063 - accuracy: 0.9978
+44/51 [========================>.....] - ETA: 56s - loss: 0.0062 - accuracy: 0.9979 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0061 - accuracy: 0.9979
+46/51 [==========================>...] - ETA: 40s - loss: 0.0060 - accuracy: 0.9980
+47/51 [==========================>...] - ETA: 32s - loss: 0.0059 - accuracy: 0.9980
+48/51 [===========================>..] - ETA: 24s - loss: 0.0058 - accuracy: 0.9980
+49/51 [===========================>..] - ETA: 16s - loss: 0.0063 - accuracy: 0.9978
+50/51 [============================>.] - ETA: 8s - loss: 0.0066 - accuracy: 0.9975 
+51/51 [==============================] - 410s 8s/step - loss: 0.0065 - accuracy: 0.9975
+val_acc: 0.80515, best_val_acc: 0.83456, test_acc: 0.81275
+
+Epoch 20/20
+
+ 1/51 [..............................] - ETA: 6:40 - loss: 8.7406e-04 - accuracy: 1.0000
+ 2/51 [>.............................] - ETA: 6:22 - loss: 0.0012 - accuracy: 1.0000    
+ 3/51 [>.............................] - ETA: 6:18 - loss: 0.0014 - accuracy: 1.0000
+ 4/51 [=>............................] - ETA: 6:20 - loss: 0.0017 - accuracy: 1.0000
+ 5/51 [=>............................] - ETA: 6:12 - loss: 0.0014 - accuracy: 1.0000
+ 6/51 [==>...........................] - ETA: 6:00 - loss: 0.0057 - accuracy: 0.9974
+ 7/51 [===>..........................] - ETA: 5:51 - loss: 0.0050 - accuracy: 0.9978
+ 8/51 [===>..........................] - ETA: 5:45 - loss: 0.0057 - accuracy: 0.9980
+ 9/51 [====>.........................] - ETA: 5:40 - loss: 0.0068 - accuracy: 0.9965
+10/51 [====>.........................] - ETA: 5:31 - loss: 0.0135 - accuracy: 0.9953
+11/51 [=====>........................] - ETA: 5:21 - loss: 0.0125 - accuracy: 0.9957
+12/51 [======>.......................] - ETA: 5:13 - loss: 0.0115 - accuracy: 0.9961
+13/51 [======>.......................] - ETA: 5:09 - loss: 0.0107 - accuracy: 0.9964
+14/51 [=======>......................] - ETA: 5:00 - loss: 0.0100 - accuracy: 0.9967
+15/51 [=======>......................] - ETA: 4:53 - loss: 0.0095 - accuracy: 0.9969
+16/51 [========>.....................] - ETA: 4:44 - loss: 0.0089 - accuracy: 0.9971
+17/51 [=========>....................] - ETA: 4:35 - loss: 0.0085 - accuracy: 0.9972
+18/51 [=========>....................] - ETA: 4:26 - loss: 0.0084 - accuracy: 0.9974
+19/51 [==========>...................] - ETA: 4:18 - loss: 0.0080 - accuracy: 0.9975
+20/51 [==========>...................] - ETA: 4:09 - loss: 0.0077 - accuracy: 0.9977
+21/51 [===========>..................] - ETA: 4:03 - loss: 0.0074 - accuracy: 0.9978
+22/51 [===========>..................] - ETA: 3:57 - loss: 0.0072 - accuracy: 0.9979
+23/51 [============>.................] - ETA: 3:48 - loss: 0.0077 - accuracy: 0.9973
+24/51 [=============>................] - ETA: 3:39 - loss: 0.0074 - accuracy: 0.9974
+25/51 [=============>................] - ETA: 3:32 - loss: 0.0086 - accuracy: 0.9962
+26/51 [==============>...............] - ETA: 3:23 - loss: 0.0083 - accuracy: 0.9964
+27/51 [==============>...............] - ETA: 3:14 - loss: 0.0080 - accuracy: 0.9965
+28/51 [===============>..............] - ETA: 3:06 - loss: 0.0077 - accuracy: 0.9967
+29/51 [================>.............] - ETA: 2:58 - loss: 0.0077 - accuracy: 0.9968
+30/51 [================>.............] - ETA: 2:49 - loss: 0.0075 - accuracy: 0.9969
+31/51 [=================>............] - ETA: 2:41 - loss: 0.0073 - accuracy: 0.9970
+32/51 [=================>............] - ETA: 2:33 - loss: 0.0071 - accuracy: 0.9971
+33/51 [==================>...........] - ETA: 2:25 - loss: 0.0080 - accuracy: 0.9967
+34/51 [===================>..........] - ETA: 2:17 - loss: 0.0078 - accuracy: 0.9968
+35/51 [===================>..........] - ETA: 2:09 - loss: 0.0077 - accuracy: 0.9969
+36/51 [====================>.........] - ETA: 2:01 - loss: 0.0076 - accuracy: 0.9970
+37/51 [====================>.........] - ETA: 1:53 - loss: 0.0074 - accuracy: 0.9970
+38/51 [=====================>........] - ETA: 1:44 - loss: 0.0072 - accuracy: 0.9971
+39/51 [=====================>........] - ETA: 1:36 - loss: 0.0071 - accuracy: 0.9972
+40/51 [======================>.......] - ETA: 1:28 - loss: 0.0075 - accuracy: 0.9969
+41/51 [=======================>......] - ETA: 1:20 - loss: 0.0075 - accuracy: 0.9970
+42/51 [=======================>......] - ETA: 1:12 - loss: 0.0074 - accuracy: 0.9970
+43/51 [========================>.....] - ETA: 1:04 - loss: 0.0072 - accuracy: 0.9971
+44/51 [========================>.....] - ETA: 56s - loss: 0.0072 - accuracy: 0.9972 
+45/51 [=========================>....] - ETA: 48s - loss: 0.0071 - accuracy: 0.9972
+46/51 [==========================>...] - ETA: 40s - loss: 0.0069 - accuracy: 0.9973
+47/51 [==========================>...] - ETA: 32s - loss: 0.0068 - accuracy: 0.9973
+48/51 [===========================>..] - ETA: 24s - loss: 0.0067 - accuracy: 0.9974
+49/51 [===========================>..] - ETA: 16s - loss: 0.0069 - accuracy: 0.9971
+50/51 [============================>.] - ETA: 8s - loss: 0.0070 - accuracy: 0.9972 
+51/51 [==============================] - 410s 8s/step - loss: 0.0069 - accuracy: 0.9972
+val_acc: 0.80392, best_val_acc: 0.83456, test_acc: 0.81449
+
+final test acc: 0.814493
+
+
+Process finished with exit code 0

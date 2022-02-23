@@ -1,0 +1,133 @@
+origin: did mahabharata really happen ?
+tokenized: [CLS] did maha ##bha ##rata really happen ? [SEP]
+does mahabharata really happen ?
+did mahabharata really happen ?
+did mahabharata really happen ?
+did mahabharata really happen ?
+did mahabharata not happen ?
+did mahabharata really exist ?
+did mahabharata really happen ?
+origin: what is minerva schools at kgi ?
+tokenized: [CLS] what is minerva schools at kg ##i ? [SEP]
+what is minerva schools at kgi ?
+what about the doing at kgi ?
+what is the education at kgi ?
+what is minerva doing at kgi ?
+what is the doing , kgi ?
+what is the doing at pori ?
+what is the doing at kgi ?
+what is the schools at kgi ?
+origin: is there any question that hasn 't been answered on quora ?
+tokenized: [CLS] is there any question that hasn ' t been answered on quo ##ra ? [SEP]
+is there any question that hasn 't been answered on quora ?
+is there any question that hasn 't been answered on quora ?
+is there a question that hasn 't been answered on quora ?
+is there any question that hasn 't been answered on quora ?
+is there any question that hasn 't been answered on quora ?
+is there any question that hasn 't been answered on quora ?
+is there any question that hasn 't been answered on quora ?
+is there any question that hasn 't been answered on quora ?
+is there any question that hasn 't been answered on quora ?
+is there any question that hasn 't been answered on quora ?
+is there any question that hasn 't been answered by quora ?
+is there any question that hasn 't been answered on alera ?
+is there any question that hasn 't been answered on therum ?
+is there any question that hasn 't been answered on quora ?
+origin: what is a programmable shifter ?
+tokenized: [CLS] what is a program ##mable shifter ? [SEP]
+what is a programmable shifter ?
+what about a programmable shifter ?
+what is a programmable shifter ?
+what is a programmable shifter ?
+what is a program , shifter ?
+what is a programmable computer ?
+what is a programmable shifter ?
+origin: what are the best books for gate ece ?
+tokenized: [CLS] what are the best books for gate ec ##e ? [SEP]
+what are the best books for gatentie ?
+what are the best books for gategarde ?
+what are the best books for thegarde ?
+what are the rule books for gategarde ?
+what are the best words for gate ece ?
+what are the best books in gate ece ?
+what are the best books for the ece ?
+what are the best books for gatehome ?
+what are the best books for the ofk ?
+what are the best books for gatentie ?
+origin: who is the most underrated singer ?
+tokenized: [CLS] who is the most under ##rated singer ? [SEP]
+who is the most underrated singer ?
+who is the most underrated singer ?
+who is the most underrated singer ?
+who is the most underrated singer ?
+who is the most underrated singer ?
+who is the most underrated singer ?
+who is the most underrated man ?
+who is the most underrated singer ?
+origin: is typhoid transmitted ?
+tokenized: [CLS] is ty ##ph ##oid transmitted ? [SEP]
+was typhoid transmitted ?
+is typhoid transmitted ?
+is typhoid transmitted ?
+is typhoid transmitted ?
+is typhoid hereditary ?
+is typhoid transmitted .
+origin: how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+tokenized: [CLS] how cold can the go ##bi desert get and how do its average temperatures compare to the ones in the tak ##lam ##aka ##n desert ? [SEP]
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how hot can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold does the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert be and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get ? how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its winter temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the temperatures in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+how cold can the gobi desert get and how do its average temperatures compare to the ones in the taklamakan desert ?
+origin: which is the best earphone headphone under rs 30000 ?
+tokenized: [CLS] which is the best ear ##phone head ##phone under rs 3000 ##0 ? [SEP]
+what is the best earphone headphone under rs 30000 ?
+which is the best earphone headphone under rs 30000 ?
+which is the best earphone headphone under rs 30000 ?
+which is the smallest earphone headphone under rs 30000 ?
+which is the best headphone headphone under rs 30000 ?
+which is the best earphone headphone under rs 30000 ?
+which is the best earphone earphone under rs 30000 ?
+which is the best earphone headphone under rs 30000 ?
+which is the best earphone headphone at rs 30000 ?
+which is the best earphone headphone under$ 30000 ?
+which is the best earphone headphone under rs2000 ?
+which is the best earphone headphone under rs 3000m ?
+which is the best earphone headphone under rs 30000 .
+origin: what would happen if argentina invaded south georgia instead of the falklands ?
+tokenized: [CLS] what would happen if argentina invaded south georgia instead of the falkland ##s ? [SEP]
+what would happen if argentina invaded south georgia instead of the falklands ?
+what would happen if argentina invaded south georgia instead of the falklands ?
+what would happen if argentina invaded south georgia instead of the falklands ?
+what would happen if argentina invaded south georgia instead of the falklands ?
+what would happen if they invaded south georgia instead of the falklands ?
+what would happen if argentina occupied south georgia instead of the falklands ?
+what would happen if argentina invaded new georgia instead of the falklands ?
+what would happen if argentina invaded south america instead of the falklands ?
+what would happen if argentina invaded south georgia instead of the falklands ?
+what would happen if argentina invaded south georgia instead of the falklands ?
+what would happen if argentina invaded south georgia instead of the falklands ?
+what would happen if argentina invaded south georgia instead of the falklands ?
+what would happen if argentina invaded south georgia instead of the falkland islands ?
+what would happen if argentina invaded south georgia instead of the falklands ?
