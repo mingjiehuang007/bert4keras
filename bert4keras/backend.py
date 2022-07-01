@@ -133,6 +133,50 @@ def search_layer(inputs, name, exclude_from=None):
                     return layer
 
 
+def align(tensor, axes, ndim=None):
+    """重新对齐tensor（批量版expand_dims）
+    axes：原来的第i维对齐新tensor的第axes[i]维；
+    ndim：新tensor的维度。
+    """
+    assert len(axes) == K.ndim(tensor)
+    assert ndim or min(axes) >= 0
+    ndim = ndim or max(axes) + 1
+    indices = [None] * ndim
+    for i in axes:
+        indices[i] = slice(None)
+    return tensor[indices]
+
+
+def reshape(tensor, *args):
+    """实现更灵活的reshape
+    其中 *args 为 (shape1, axis1, shape2, axis2, ...) 格式，表示将
+    维度axis1转换为shape1、维度axis2转换为shape2、...
+    """
+    if len(args) == 1:
+        return tf.reshape(tensor, args[0])
+    assert len(args) % 2 == 0
+    shape = K.shape(tensor)
+    shape = [[s or shape[i]] for i, s in enumerate(K.int_shape(tensor))]
+    for s, i in zip(args[::2], args[1::2]):
+        s = list(s)
+        assert s.count(-1) <= 1
+        if s.count(-1) == 1:
+            j = s.index(-1)
+            s[j] = -shape[i][0] // K.prod(s)
+        shape[i] = s
+    return tf.reshape(tensor, [i for s in shape for i in s])
+
+
+def flatten(tensor, start=None, end=None):
+    """将tensor从start到end的维度展平
+    """
+    start, end = start or 0, end or K.ndim(tensor)
+    shape = K.shape(tensor)
+    shape = [s or shape[i] for i, s in enumerate(K.int_shape(tensor))]
+    shape = shape[:start] + [K.prod(shape[start:end])] + shape[end:]
+    return K.reshape(tensor, shape)
+
+
 def sequence_masking(x, mask, value=0, axis=None):
     """为序列条件mask的函数
     mask: 形如(batch_size, seq_len)的0-1矩阵；
@@ -156,11 +200,8 @@ def sequence_masking(x, mask, value=0, axis=None):
         elif axis < 0:
             axis = K.ndim(x) + axis
         assert axis > 0, 'axis must be greater than 0'
-        for _ in range(axis - 1):
-            mask = K.expand_dims(mask, 1)
+        mask = align(mask, [0, axis], K.ndim(x))
         value = K.cast(value, K.dtype(x))
-        for _ in range(K.ndim(x) - K.ndim(mask)):
-            mask = K.expand_dims(mask, K.ndim(mask))
         x = x * mask + value * (1 - mask)
         if x_dtype == 'bool':
             x = K.cast(x, 'bool')
@@ -230,6 +271,25 @@ def leaky_relu(x, alpha=0.2):
     return tf.nn.leaky_relu(x, alpha=alpha)
 
 
+def attention_normalize(a, axis=-1, method='softmax'):
+    """不同的注意力归一化方案
+    softmax：常规/标准的指数归一化；
+    squared_relu：来自 https://arxiv.org/abs/2202.10447 ；
+    softmax_plus：来自 https://kexue.fm/archives/8823 。
+    """
+    if method == 'softmax':
+        return K.softmax(a, axis=axis)
+    else:
+        mask = K.cast(a > -K.infinity() / 10, K.floatx())
+        l = K.maximum(K.sum(mask, axis=axis, keepdims=True), 1)
+        if method == 'squared_relu':
+            return K.relu(a)**2 / l
+        elif method == 'softmax_plus':
+            scale = K.log(l) / np.log(512) * mask + 1 - mask
+            return K.softmax(a * scale, axis=axis)
+    return a
+
+
 class Sinusoidal(keras.initializers.Initializer):
     """Sin-Cos位置向量初始化器
     来自：https://arxiv.org/abs/1706.03762
@@ -247,20 +307,55 @@ class Sinusoidal(keras.initializers.Initializer):
         return embeddings
 
 
+def apply_rotary_position_embeddings(sinusoidal, *tensors):
+    """应用RoPE到tensors中
+    其中，sinusoidal.shape=[b, n, d]，tensors为tensor的列表，而
+    tensor.shape=[b, n, ..., d]。
+    """
+    assert len(tensors) > 0, 'at least one input tensor'
+    assert all([
+        K.int_shape(tensor) == K.int_shape(tensors[0]) for tensor in tensors[1:]
+    ]), 'all tensors must have the same shape'
+    ndim = K.ndim(tensors[0])
+    sinusoidal = align(sinusoidal, [0, 1, -1], ndim)
+    cos_pos = K.repeat_elements(sinusoidal[..., 1::2], 2, -1)
+    sin_pos = K.repeat_elements(sinusoidal[..., ::2], 2, -1)
+    outputs = []
+    for tensor in tensors:
+        tensor2 = K.stack([-tensor[..., 1::2], tensor[..., ::2]], ndim)
+        tensor2 = K.reshape(tensor2, K.shape(tensor))
+        outputs.append(tensor * cos_pos + tensor2 * sin_pos)
+    return outputs[0] if len(outputs) == 1 else outputs
+
+
+def log(x, epsilon=None):
+    """给log添加epsilon，防止NaN
+    """
+    if epsilon is None:
+        return tf.math.log(x)
+    elif epsilon is True:
+        epsilon = K.epsilon()
+    return tf.math.log(K.maximum(x, epsilon))
+
+
 def multilabel_categorical_crossentropy(y_true, y_pred):
     """多标签分类的交叉熵
     说明：
-        1. y_true和y_pred的shape一致，y_true的元素非0即1，
-           1表示对应的类为目标类，0表示对应的类为非目标类；
+        1. y_true和y_pred的shape一致，y_true的元素是0～1
+           的数，表示当前类是目标类的概率；
         2. 请保证y_pred的值域是全体实数，换言之一般情况下
            y_pred不用加激活函数，尤其是不能加sigmoid或者
            softmax；
         3. 预测阶段则输出y_pred大于0的类；
-        4. 详情请看：https://kexue.fm/archives/7359 。
+        4. 详情请看：https://kexue.fm/archives/7359 和
+           https://kexue.fm/archives/9064 。
     """
-    y_pred = (1 - 2 * y_true) * y_pred
-    y_neg = y_pred - y_true * K.infinity()
-    y_pos = y_pred - (1 - y_true) * K.infinity()
+    y_mask = y_pred > -K.infinity() / 10
+    n_mask = (y_true < 1 - K.epsilon()) & y_mask
+    p_mask = (y_true > K.epsilon()) & y_mask
+    infs = K.zeros_like(y_pred) + K.infinity()
+    y_neg = K.switch(n_mask, y_pred, -infs) + K.log(1 - y_true, True)
+    y_pos = K.switch(p_mask, -y_pred, -infs) + K.log(y_true, True)
     zeros = K.zeros_like(y_pred[..., :1])
     y_neg = K.concatenate([y_neg, zeros], axis=-1)
     y_pos = K.concatenate([y_pos, zeros], axis=-1)
@@ -384,10 +479,18 @@ def recompute_grad(call):
 # 给旧版keras新增symbolic（装饰器），以兼容optimizers.py
 K.symbolic = getattr(K, 'symbolic', None) or symbolic
 
+# 给tf.keras补充上logsumexp
+K.logsumexp = getattr(K, 'logsumexp', None) or tf.math.reduce_logsumexp
+
+# 修改版对数函数
+K.log = log
+
 # 添加到 keras.backend 上，使其可以像 K.epsilon() 那样操作
+K.reshape = reshape
+K.flatten = flatten
 K.infinity = infinity
 K.set_infinity = set_infinity
-sys.modules['keras.backend'] = K
+sys.modules['tensorflow.keras.backend'] = K
 
 custom_objects = {
     'gelu_erf': gelu_erf,
@@ -398,6 +501,7 @@ custom_objects = {
     'leaky_relu': leaky_relu,
     'Sinusoidal': Sinusoidal,
     'multilabel_categorical_crossentropy': multilabel_categorical_crossentropy,
+    'initializer': keras.initializers.glorot_uniform,  # 就当是默认初始化方案吧
 }
 
 keras.utils.get_custom_objects().update(custom_objects)
