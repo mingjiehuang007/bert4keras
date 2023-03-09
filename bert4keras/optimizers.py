@@ -37,7 +37,7 @@ class Adam(keras.optimizers.Optimizer):
             self.add_slot(var, 'm')
             self.add_slot(var, 'v')
 
-    def _resource_apply(self, grad, var, indices=None):
+    def _resource_apply_dense(self, grad, var):
         # 准备变量
         var_dtype = var.dtype.base_dtype
         lr_t = self._decayed_lr(var_dtype)
@@ -51,18 +51,8 @@ class Adam(keras.optimizers.Optimizer):
         beta_2_t_power = K.pow(beta_2_t, local_step)
 
         # 更新公式
-        if indices is None:
-            m_t = K.update(m, beta_1_t * m + (1 - beta_1_t) * grad)
-            v_t = K.update(v, beta_2_t * v + (1 - beta_2_t) * K.square(grad))
-        else:
-            mv_ops = [K.update(m, beta_1_t * m), K.update(v, beta_2_t * v)]
-            with tf.control_dependencies(mv_ops):
-                m_t = self._resource_scatter_add(
-                    m, indices, (1 - beta_1_t) * grad
-                )
-                v_t = self._resource_scatter_add(
-                    v, indices, (1 - beta_2_t) * K.square(grad)
-                )
+        m_t = K.update(m, beta_1_t * m + (1 - beta_1_t) * grad)
+        v_t = K.update(v, beta_2_t * v + (1 - beta_2_t) * K.square(grad))
 
         # 返回算子
         with tf.control_dependencies([m_t, v_t]):
@@ -72,11 +62,10 @@ class Adam(keras.optimizers.Optimizer):
             var_t = var - lr_t * m_t / (K.sqrt(v_t) + self.epsilon)
             return K.update(var, var_t)
 
-    def _resource_apply_dense(self, grad, var):
-        return self._resource_apply(grad, var)
-
     def _resource_apply_sparse(self, grad, var, indices):
-        return self._resource_apply(grad, var, indices)
+        grad = tf.IndexedSlices(grad, indices, K.shape(var))
+        grad = tf.convert_to_tensor(grad)
+        return self._resource_apply_dense(grad, var)
 
     def get_config(self):
         config = {
@@ -87,6 +76,52 @@ class Adam(keras.optimizers.Optimizer):
             'bias_correction': self.bias_correction,
         }
         base_config = super(Adam, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+
+
+class LionV2(keras.optimizers.Optimizer):
+    """Lion优化器
+    （tensorflow的optimizer_v2类）
+    论文链接：https://arxiv.org/abs/2302.06675
+    """
+    def __init__(self, learning_rate=3e-4, beta_1=0.95, beta_2=0.98, **kwargs):
+        kwargs['name'] = kwargs.get('name') or 'Lion'
+        super(Lion, self).__init__(**kwargs)
+        self._set_hyper('learning_rate', learning_rate)
+        self._set_hyper('beta_1', beta_1)
+        self._set_hyper('beta_2', beta_2)
+
+    def _create_slots(self, var_list):
+        for var in var_list:
+            self.add_slot(var, 'm')
+
+    def _resource_apply_dense(self, grad, var):
+        # 准备变量
+        var_dtype = var.dtype.base_dtype
+        lr_t = self._decayed_lr(var_dtype)
+        m = self.get_slot(var, 'm')
+        beta_1_t = self._get_hyper('beta_1', var_dtype)
+        beta_2_t = self._get_hyper('beta_2', var_dtype)
+
+        # 更新公式
+        u_t = K.sign(beta_1_t * m + (1 - beta_1_t) * grad)
+        var_t = K.update(var, var - lr_t * u_t)
+        with tf.control_dependencies([var_t]):
+            m_t = K.update(m, beta_2_t * m + (1 - beta_2_t) * grad)
+            return m_t
+
+    def _resource_apply_sparse(self, grad, var, indices):
+        grad = tf.IndexedSlices(grad, indices, K.shape(var))
+        grad = tf.convert_to_tensor(grad)
+        return self._resource_apply_dense(grad, var)
+
+    def get_config(self):
+        config = {
+            'learning_rate': self._serialize_hyperparameter('learning_rate'),
+            'beta_1': self._serialize_hyperparameter('beta_1'),
+            'beta_2': self._serialize_hyperparameter('beta_2'),
+        }
+        base_config = super(Lion, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
 
 
@@ -268,7 +303,7 @@ class AdaFactorV2(AdaFactorBase):
     def _decayed_lr(self, var_dtype):
         return self.learning_rate
 
-    def _resource_apply(self, grad, var, indices=None):
+    def _resource_apply_dense(self, grad, var):
         lr = self._decayed_lr(var.dtype.base_dtype)
         g2 = K.square(grad) + self.epsilon1
         shape = K.int_shape(var)
@@ -306,9 +341,6 @@ class AdaFactorV2(AdaFactorBase):
             u = u * K.maximum(rms(var), self.epsilon2)
         # 更新参数
         return K.update(var, var - lr * u)
-
-    def _resource_apply_dense(self, grad, var):
-        return self._resource_apply(grad, var)
 
     def _resource_apply_sparse(self, grad, var, indices):
         grad = tf.IndexedSlices(grad, indices, K.shape(var))
@@ -386,7 +418,7 @@ def extend_with_weight_decay_v2(BaseOptimizer):
         def __init__(self, *args, **kwargs):
             super(NewOptimizer, self).__init__(*args, **kwargs)
 
-        def _resource_apply(self, grad, var, indices=None):
+        def _resource_apply_dense(self, grad, var):
             old_update = K.update
 
             def new_update(x, new_x):
@@ -396,7 +428,7 @@ def extend_with_weight_decay_v2(BaseOptimizer):
                 return old_update(x, new_x)
 
             K.update = new_update
-            op = super(NewOptimizer, self)._resource_apply(grad, var, indices)
+            op = super(NewOptimizer, self)._resource_apply_dense(grad, var)
             K.update = old_update
 
             return op
@@ -437,12 +469,12 @@ def extend_with_layer_adaptation(BaseOptimizer):
             def new_update(x, new_x):
                 if is_one_of(x, params) and self._do_layer_adaptation(x):
                     dx = new_x - x
-                    lr_t = K.clip(self.learning_rate, K.epsilon(), K.infinity())
+                    lr_t = K.maximum(self.learning_rate, K.epsilon())
                     x_norm = tf.norm(x)
                     g_norm = tf.norm(dx / lr_t)
-                    ratio = K.switch(
+                    ratio = K.where(
                         x_norm > 0.0,
-                        K.switch(g_norm > 0.0, x_norm / g_norm, 1.0), 1.0
+                        K.where(g_norm > 0.0, x_norm / g_norm, 1.0), 1.0
                     )
                     new_x = x + dx * ratio
                 return old_update(x, new_x)
@@ -482,25 +514,25 @@ def extend_with_layer_adaptation_v2(BaseOptimizer):
         def __init__(self, *args, **kwargs):
             super(NewOptimizer, self).__init__(*args, **kwargs)
 
-        def _resource_apply(self, grad, var, indices=None):
+        def _resource_apply_dense(self, grad, var):
             old_update = K.update
 
             def new_update(x, new_x):
                 if x is var and self._do_layer_adaptation(x):
                     dx = new_x - x
                     lr_t = self._decayed_lr(x.dtype.base_dtype)
-                    lr_t = K.clip(lr_t, K.epsilon(), K.infinity())
+                    lr_t = K.maximum(lr_t, K.epsilon())
                     x_norm = tf.norm(x)
                     g_norm = tf.norm(dx / lr_t)
-                    ratio = K.switch(
+                    ratio = K.where(
                         x_norm > 0.0,
-                        K.switch(g_norm > 0.0, x_norm / g_norm, 1.0), 1.0
+                        K.where(g_norm > 0.0, x_norm / g_norm, 1.0), 1.0
                     )
                     new_x = x + dx * ratio
                 return old_update(x, new_x)
 
             K.update = new_update
-            op = super(NewOptimizer, self)._resource_apply(grad, var, indices)
+            op = super(NewOptimizer, self)._resource_apply_dense(grad, var)
             K.update = old_update
 
             return op
@@ -670,7 +702,7 @@ def extend_with_gradient_accumulation_v2(BaseOptimizer):
             for var in var_list:
                 self.add_slot(var, 'ag')
 
-        def _resource_apply(self, grad, var, indices=None):
+        def _resource_apply_dense(self, grad, var):
             # 更新判据
             cond = K.equal(self.iterations % self.grad_accum_steps, 0)
             # 获取梯度
@@ -679,24 +711,20 @@ def extend_with_gradient_accumulation_v2(BaseOptimizer):
             old_update = K.update
 
             def new_update(x, new_x):
-                new_x = K.switch(cond, new_x, x)
+                new_x = K.where(cond, new_x, x)
                 return old_update(x, new_x)
 
             K.update = new_update
             ag_t = ag / self.grad_accum_steps
-            op = super(NewOptimizer, self)._resource_apply(ag_t, var)
+            op = super(NewOptimizer, self)._resource_apply_dense(ag_t, var)
             K.update = old_update
 
             # 累积梯度
             with tf.control_dependencies([op]):
-                ag_t = K.switch(cond, K.zeros_like(ag), ag)
+                ag_t = K.where(cond, 0, ag)
                 with tf.control_dependencies([K.update(ag, ag_t)]):
-                    if indices is None:
-                        ag_t = K.update(ag, ag + grad)
-                    else:
-                        ag_t = self._resource_scatter_add(ag, indices, grad)
-
-            return ag_t
+                    ag_t = K.update(ag, ag + grad)
+                    return ag_t
 
         def get_config(self):
             config = {
@@ -736,12 +764,12 @@ def extend_with_lookahead(BaseOptimizer):
 
             with tf.control_dependencies(updates):
                 slow_updates = [
-                    K.update(q, K.switch(cond, q + alpha * (p - q), q))
+                    K.update(q, K.where(cond, q + alpha * (p - q), q))
                     for p, q in zip(params, slow_vars)
                 ]
                 with tf.control_dependencies(slow_updates):
                     copy_updates = [
-                        K.update(p, K.switch(cond, q, p))
+                        K.update(p, K.where(cond, q, p))
                         for p, q in zip(params, slow_vars)
                     ]
 
@@ -777,8 +805,8 @@ def extend_with_lookahead_v2(BaseOptimizer):
             for var in var_list:
                 self.add_slot(var, 'slow_var')
 
-        def _resource_apply(self, grad, var, indices=None):
-            op = super(NewOptimizer, self)._resource_apply(grad, var, indices)
+        def _resource_apply_dense(self, grad, var):
+            op = super(NewOptimizer, self)._resource_apply_dense(grad, var)
 
             k, alpha = self.steps_per_slow_update, self.slow_step_size
             cond = K.equal(self.iterations % k, 0)
@@ -787,10 +815,10 @@ def extend_with_lookahead_v2(BaseOptimizer):
 
             with tf.control_dependencies([op]):
                 slow_update = K.update(
-                    slow_var, K.switch(cond, slow_var_t, slow_var)
+                    slow_var, K.where(cond, slow_var_t, slow_var)
                 )
                 with tf.control_dependencies([slow_update]):
-                    copy_update = K.update(var, K.switch(cond, slow_var, var))
+                    copy_update = K.update(var, K.where(cond, slow_var, var))
 
             return copy_update
 
@@ -872,25 +900,17 @@ def extend_with_lazy_optimization_v2(BaseOptimizer):
         def __init__(self, *args, **kwargs):
             super(NewOptimizer, self).__init__(*args, **kwargs)
 
-        def _resource_apply(self, grad, var, indices=None):
+        def _resource_apply_dense(self, grad, var):
             old_update = K.update
 
             def new_update(x, new_x):
                 if x is var and self._do_lazy_optimization(x):
-                    if indices is None:
-                        r = K.any(
-                            K.not_equal(grad, 0.0), axis=-1, keepdims=True
-                        )
-                        new_x = x + (new_x - x) * K.cast(r, K.floatx())
-                        return old_update(x, new_x)
-                    else:
-                        return self._resource_scatter_add(
-                            x, indices, K.gather(new_x - x, indices)
-                        )
+                    r = K.any(K.not_equal(grad, 0.0), axis=-1, keepdims=True)
+                    new_x = x + (new_x - x) * K.cast(r, K.floatx())
                 return old_update(x, new_x)
 
             K.update = new_update
-            op = super(NewOptimizer, self)._resource_apply(grad, var, indices)
+            op = super(NewOptimizer, self)._resource_apply_dense(grad, var)
             K.update = old_update
 
             return op
@@ -1089,7 +1109,7 @@ def extend_with_parameter_wise_lr_v2(BaseOptimizer):
         def __init__(self, *args, **kwargs):
             super(NewOptimizer, self).__init__(*args, **kwargs)
 
-        def _resource_apply(self, grad, var, indices=None):
+        def _resource_apply_dense(self, grad, var):
             old_update = K.update
 
             def new_update(x, new_x):
@@ -1103,7 +1123,7 @@ def extend_with_parameter_wise_lr_v2(BaseOptimizer):
                 return old_update(x, new_x)
 
             K.update = new_update
-            op = super(NewOptimizer, self)._resource_apply(grad, var, indices)
+            op = super(NewOptimizer, self)._resource_apply_dense(grad, var)
             K.update = old_update
 
             return op
@@ -1127,6 +1147,7 @@ if is_tf_keras:
     extend_with_lazy_optimization = extend_with_lazy_optimization_v2
     extend_with_exponential_moving_average = extend_with_exponential_moving_average_v2
     extend_with_parameter_wise_lr = extend_with_parameter_wise_lr_v2
+    Lion = LionV2
     AdaFactor = AdaFactorV2
 else:
     Adam = keras.optimizers.Adam
